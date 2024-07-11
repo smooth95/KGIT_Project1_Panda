@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <%- include("../common/header.ejs") %>
+
+</head>
+<body>
+    
+    <br>
+    <% for (let i = 0; i < user.length; i++) { %>
+        <a href="/chat/info/<%=user[i].id%>/<%=user[i].num%>"><%=user[i].id%> 연결</a>
+    <% } %>
+</body>
+</html>
+

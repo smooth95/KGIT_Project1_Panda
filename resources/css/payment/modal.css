@@ -1,0 +1,97 @@
+.modal{
+  position:absolute;
+  display:none;
+  
+  justify-content: center;
+  top:0;
+  left:0;
+
+  width:100%;
+  height:100%;
+
+  background-color: rgba(0,0,0,0.4);
+}
+.modal_body{
+  position:absolute;
+  top:50%;  
+
+  width:400px;  
+  height:600px; 
+
+  padding:40px;  
+
+  background-color: rgb(255,255,255); 
+  border-radius:10px;  
+  box-shadow:0 2px 3px 0 rgba(34,36,38,0.15); 
+
+  transform:translateY(-50%);  
+}
+.tbModal {
+  width: 400px;
+}
+
+.box {
+  text-align: center;
+  background-color: #6666FF;
+  border-radius:10px;  
+  width: 134.33px;
+  margin-bottom: 15px;
+}
+.payWay {
+  text-align: center;
+  background-color: #6666FF;
+  border-radius:10px;  
+  width: 134.33px;
+  margin-bottom: 15px;
+}
+
+.btn-parent {
+  width: 400px;
+  height: 30px;
+  display: flex;
+  justify-content: flex-end;
+  
+}
+.w-btn-outline {
+  position: relative;
+  padding: 0px 30px;
+  border-radius: 15px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  margin: 0 auto;
+}
+
+.w-btn-red-outline:hover {
+  background-color: #ff3e03;
+  color: #e1eef6;
+}
+
+.w-btn-blue-outline:hover {
+  background-color: #58b4ff;
+  color: #d4dfe6;
+}
+
+.w-btn-outline:active {
+  transform: scale(1.5);
+}
+
+.spanTag {
+  display: block;
+  margin-top: 30px;
+  
+}
+
+#terms {
+  width: 400px;
+  height: 180px;
+  border: none;
+  resize: none;
+}
+
+
+
+
+

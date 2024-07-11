@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  <link href="/resources/css/info/profile.css" rel="stylesheet" >
+  <link rel="stylesheet" type="text/css" href="css/starability-fade.min.css"/>
+  <link rel="stylesheet" type="text/css" href="css/starability-all.min.css"/>
+    
+
+
+  </head>
+  <body>
+    <hr>
+ 
+      <div id="root">
+        <div class="app">
+          <div class="sc-hGoxap blnodS">
+            <div class="sc-cPuPxo bzn0jk">
+              <div class="sc-hvvHee jSmAZQ">
+                <div class="sc-bYnzg0 kqmAer">
+                  <div class="sc-jXQZql jiarQh">
+                    
+                    <!--이미지부분?-->
+                    <% profile.forEach(info=>{ %>
+
+                    <div class="sc-iGPElx ermrpj">
+                      <div size="310" class="sc-chbbiW ipXCvk">
+                        <div class="sc-gmeYpB leXbQf"></div>
+                        <!--leXbQf가 색띄우는 부분-->
+                        <div class="sc-kxynE eRUQZt"></div>
+ 
+                      <% if(info.INFO_IMG) { %>
+                        <img id="img"  class="info_img" src="/resources/upload/<%= info.INFO_IMG %>" alt="프로필 이미지">
+                    <% } else { %>
+                        <!-- 프로필 이미지가 없는 경우 기본 이미지 표시 -->
+                        <img id="img" class="info_img" src="/resources/upload/panda_p.png" alt="기본 이미지">
+                    <% } %>
+                    
+
+                      </div>
+                      <div
+                        data-testid="popup-element"
+                        class="sc-lhVmlH fKhHmr"
+                      ></div>
+                    </div>
+
+
+                    <div class="sc-hgHYgh kDkgVT">
+                      <div class="sc-einJlc hkaFNj">
+                        <div class="sc-likbZx ixFzSN">이름 : <%= info.INFO_NAME %></div>
+                      </div>
+                      
+                      <div class="sc-bGJRg hQqotf">포인트 <%= info.INFO_POINT %>원 </div>
+                      <div class="sc-bGJRg hQqotf">
+                        <button class="sc-kasBVs blcYdX" id="open_modal">충전하기</button>
+                      </div>
+                      <div class="sc-bGJRg hQqotf1">평점
+                        <div class="sc-lBEsjs dQLwrX">
+                          <img src="/resources/upload/star.png" width="20" height="20" alt="평점 이미지" >
+                          <img src="/resources/upload/star.png" width="20" height="20" alt="평점 이미지">
+                          <img src="/resources/upload/star.png" width="20" height="20" alt="평점 이미지">
+                          <img src="/resources/upload/star.png" width="20" height="20" alt="평점 이미지">
+                          <img src="/resources/upload/star.png" width="20" height="20" alt="평점 이미지">
+                        </div>
+                        
+                   
+                      </div>
+
+
+
+                      
+                      <div class="sc-bGJRg hQqotf">
+
+                        <a class="sc-kasBVs blcYdX1" href="/info/infoModify_form?info_id=<%= info.INFO_ID %>">회원정보수정</a>
+                      </div>
+                    </div>
+                    <% }) %>
+                   </div>
+                   </div>
+                   <div class="sc-fvLVrH dUcFyG">
+                     <div class="sc-kqlzXE kdQTYb">
+                       <div class="ddd">
+                       <div class="sc-gpHHfC dvLjiM">
+                         <a class="sc-gVyKpa gmerZt" href="/info/history">
+                              판매/구매 내역
+                            </a>
+                            <a class="sc-gVyKpa gmerZt" href="/info/productM">
+                              상품관리
+                            </a>
+                            <a class="sc-gVyKpa gmerZt" href="/info/inquiry">
+                              문의
+                            </a>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+
+                        
+                        <div data-testid="popup-element" class="sc-lhVmlH fKhHmr"></div>
+                      </div>
+            </div>
+            
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      const open_md = document.querySelector("#open_modal");
+      open_md.addEventListener("click", function(){
+        location.href = "/payment/point";
+      })
+
+    </script>
+
+    <script>
+    <% profile.forEach(info => { %>
+        // 이미지 요소에 대한 ID를 가져오기
+        const imgElement = document.getElementById("profileImage");
+
+        // 이미지 URL이 존재하면 이미지 업데이트, 그렇지 않으면 기본 이미지로 업데이트
+        if (imgElement) {
+            imgElement.src = "<%= '/resources/upload/panda_p.png' %>";
+        }else{
+          imgElement.src = "<%= info.INFO_IMG %>";
+        }
+    <% }) %>
+
+
+    
+  </script>
+
+  </body>
+</html>

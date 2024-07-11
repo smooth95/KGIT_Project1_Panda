@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/resources/css/admin/default/menu.css" rel="stylesheet">
+    
+
+</head>
+<body>
+    <div class="admin_dropdown_menu">
+
+        <!-- 메인페이지 토글 -->
+        <div class="admin_dropdown_toggle">
+            <div class="admin_dropdown_bar">
+                <a class="admin_dropdown_title" onclick="toggle(0)">메인 페이지</a>
+            </div>
+            <div class="admin_dropdown_content">
+                <a href="/admin">대시보드</a>
+            </div>
+        </div>
+
+        <!-- 멤버관리 토글 -->
+        <div class="admin_dropdown_toggle">
+            <div class="admin_dropdown_bar">
+                <a class="admin_dropdown_title" onclick="toggle(1)">멤버 관리</a>
+            </div>
+            <div class="admin_dropdown_content">
+                <a href="/admin/mem_list">회원 목록 확인</a>
+                <a href="/admin/mem_add">회원 추가</a>
+            </div>
+        </div>
+
+        <!-- 상품관리 토글 -->
+        <div class="admin_dropdown_toggle">
+            <div class="admin_dropdown_bar">
+                <a class="admin_dropdown_title" onclick="toggle(2)">상품 관리</a>
+            </div>
+            <div class="admin_dropdown_content">
+                <a href="/admin/prod_list">상품 목록 확인</a>
+            </div>
+        </div>
+    </div>
+    <div class="">
+
+    </div>
+    <script>
+        var clickCount = 0;
+        const title = document.querySelectorAll(".admin_dropdown_title");
+        const content = document.querySelectorAll(".admin_dropdown_content");
+        const menu = document.querySelector(".admin_dropdown_menu");
+        var contentNum = 0;
+
+
+        // 메뉴를 클릭했을때 콘텐츠가 활성화됨
+        function toggle(num) {
+            contentNum = num;
+            if (content[num].style.display == "block") {
+                content[num].style.display = "none";
+                clickCount = 0;
+            } else {
+                content.forEach((item) => {
+                    item.style.display = "none";
+                })
+                content[num].style.display = "block";
+                clickCount = 1;
+            }
+            
+        }
+        var timeoutId;
+        var titleout;
+        // 콘텐츠가 활성화되어있을때 마우스가 제목을 이동하면
+        // 다른 콘텐츠가 보여짐
+        title.forEach((item, index) => {
+            item.addEventListener("mouseover", function() {
+                if (clickCount == 1) {
+                    clearTimeout(timeoutId);
+                    content.forEach((contentItem) => {
+                        contentItem.style.display = "none";
+                    })
+                    content[index].style.display = "block";
+                } 
+            })
+        })
+        menu.addEventListener("mouseover", function() {
+            clearTimeout(timeoutId);
+            clickCount = 1;
+        })
+        menu.addEventListener("mouseout", function() {
+            timeoutId = setTimeout(() => {
+                content.forEach((contentItem) => {
+                    contentItem.style.display = "none";
+                    clickCount = 0;
+                });
+            }, 100);
+        })
+
+        // 콘텐츠가 활성화되어있을때 영역을 벗어나면 사라짐
+        content.forEach((item) => {
+            item.addEventListener("mouseover", function() {
+                clearTimeout(timeoutId);
+                item.style.display = "block";
+                clickCount = 1;
+            });
+        });
+    </script>
+</body>
+</html>

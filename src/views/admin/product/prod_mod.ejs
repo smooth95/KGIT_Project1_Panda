@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/resources/css/admin/default/default.css" rel="stylesheet">
+    <link href="/resources/css/admin/product/prod_mod.css" rel="stylesheet">
+    <%- include("../../common/header.ejs") %>
+</head>
+<body>
+    <%- include("../../admin/default/menu.ejs") %>
+    <div class="body">
+        <h2>상품 정보 변경</h2>
+        <div class="mng_prod_body">
+            <div class="mng_prod_table">
+                <form class="mod_form" action="/admin/prod_mod_check" method="post" enctype="multipart/form-data">
+                    <table class="mng_prod_register_table">
+                        <tbody>
+                            <tr>
+                                <td class="title">게시글 번호</td>
+                                <td class="content">
+                                    <input class="input_field" name="num" type="text" readonly value="<%=prod.BOARD_NUM%>">
+                                    <label class="id_msg info_msg"></label>
+                                </td>
+                                <td class="title">판매자</td>
+                                <td class="content">
+                                    <input class="input_field" name="id" type="text" readonly value="<%=prod.BOARD_ID%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">제목</td>
+                                <td class="content">
+                                    <input class="input_field" name="title" type="text" value="<%=prod.BOARD_TITLE%>">
+                                </td>
+                                <td class="title" rowspan="2">사진</td>
+                                <td class="content imgCont" rowspan="2">
+                                    <img src="/resources/upload/<%=prod.BOARD_IMG%>" class="viewImg">
+                                    <input class="input_field" name="originImg" type="text" hidden value="<%=prod.BOARD_IMG%>">
+                                    <input class="input_field file" name="changeImg" onchange="readURL(this)" type="file">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">가격</td>
+                                <td class="content">
+                                    <input class="input_field" name="price" type="number" value="<%=prod.BOARD_PRICE%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">상태</td>
+                                <td class="content">
+                                    <input class="input_field" name="condition" type="number" value="<%=prod.BOARD_CONDITION%>">
+                                </td>
+                                <td class="title">거래방식</td>
+                                <td class="content">
+                                    <input class="input_field" name="tradeway" type="number" value="<%=prod.BOARD_TRADEWAY%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">상품상태</td>
+                                <td class="content">
+                                    <input class="input_field" name="pollution" type="number" value="<%=prod.BOARD_POLLUTION%>">
+                                </td>
+                                <td class="title">상세</td>
+                                <td class="content">
+                                    <input class="input_field" name="detail" type="text" value="<%=prod.BOARD_DETAIL%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">거래현황</td>
+                                <td class="content">
+                                    <input class="input_field" name="istrading" type="number" value="<%=prod.BOARD_ISTRADING%>">
+                                </td>
+                                <td class="title">조회수</td>
+                                <td class="content">
+                                    <input class="input_field" name="views" type="number" value="<%=prod.BOARD_VIEWS%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">지역</td>
+                                <td class="content">
+                                    <input class="input_field" name="region" type="text" value="<%=prod.BOARD_REGION%>">
+                                </td>
+                                <td class="title">지역상세</td>
+                                <td class="content">
+                                    <input class="input_field" name="regiondetail" type="text" value="<%=prod.BOARD_REGIONDETAIL%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">생성시간</td>
+                                <td class="content" colspan="3">
+                                    <input class="input_field time" readonly name="createtime" type="text" value="<%=prod.BOARD_CREATETIME%>"></td>
+                            </tr>
+                            <tr>
+                                <td class="title">카테고리</td>
+                                <td class="content">
+                                    <input class="input_field" name="category" type="text" value="<%=prod.BOARD_CATEGORY%>">
+                                </td>
+                                <td class="title">구매자</td>
+                                <td class="content">
+                                    <input class="input_field" name="buyerid" type="text" value="<%=prod.BOARD_BUYERID%>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title">구매자승인</td>
+                                <td class="content">
+                                    <input class="input_field" name="isbuyerok" type="number" value="<%=prod.BOARD_ISBUYEROK%>">
+                                </td>
+                                <td class="title">판매자승인</td>
+                                <td class="content">
+                                    <input class="input_field" name="issellerok" type="number" value="<%=prod.BOARD_ISSELLEROK%>">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+                <div class="mng_prod_mod_bot_nav">
+                    <input class="mng_prod_mod_submit" onclick="submit()" type=button value="변경" disabled>
+                    <input class="mng_prod_mod_cancel" onclick="location.href='/admin/prod_list'" type="button" value="취소">
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../../default/footer.ejs") %>
+
+    <script>
+            const submitBtn = document.querySelector(".mng_prod_mod_submit");
+            const form = document.querySelector(".mod_form")
+            submitBtn.disabled = true;
+            
+            const boardNum = document.querySelector("[name=num]")
+            const boardId = document.querySelector("[name=id]")
+            const boardTitle = document.querySelector("[name=title]")
+            const boardPrice = document.querySelector("[name=price]")
+            const boardOriginImg = document.querySelector("[name=originImg]")
+            const boardChangeImg = document.querySelector("[name=changeImg]")
+            const boardCondition = document.querySelector("[name=condition]")
+            const boardTradeway = document.querySelector("[name=tradeway]")
+            const boardPollution = document.querySelector("[name=pollution]")
+            const boardDetail = document.querySelector("[name=detail]")
+            const boardIstrading = document.querySelector("[name=istrading]")
+            const boardViews = document.querySelector("[name=views]")
+            const boardRegion = document.querySelector("[name=region]")
+            const boardRegionDetail = document.querySelector("[name=regiondetail]")
+            const boardCreateTime = document.querySelector("[name=createtime]")
+            const boardCategory = document.querySelector("[name=category]")
+            const boardBuyerId = document.querySelector("[name=buyerid]")
+            const boardIsBuyerOk = document.querySelector("[name=isbuyerok]")
+            const boardIsSellerOk = document.querySelector("[name=issellerok]")
+
+            isTitle = true;
+            isPrice = true;
+            isImg = true;
+            isCondition = true;
+            isTradeway = true;
+            isPollution = true;
+            isDetail = true;
+            isIstrading = true;
+            isViews = true;
+            isRegion = true;
+            isRegionDetail = true;
+            isCreateTime = true;
+            isCategory = true;
+            isBuyerId = true;
+            isBuyerOk = true;
+            isSellerOk = true;
+
+
+            boardTitle.addEventListener("input", () => {
+                if ('<%=prod.BOARD_TITLE%>' == boardTitle.value) {
+                    isTitle = true;
+                } else {
+                    isTitle = false;
+                }
+                updateButtonState()
+            })
+            boardPrice.addEventListener("input", () => {
+                if ('<%=prod.BOARD_PRICE%>' == boardPrice.value) {
+                    isPrice = true;
+                } else {
+                    isPrice = false;
+                }
+                updateButtonState()
+            })
+            boardChangeImg.addEventListener("input", () => {
+                console.log("value : ", boardChangeImg.value)
+                console.log(!boardChangeImg.value)
+                // if (boardChangeImg.value) {
+                //     boardOriginImg.value = boardChangeImg.value.split("\\").pop()
+                // }
+                if ('<%=prod.BOARD_IMG%>' == boardChangeImg.value) {
+                    isImg = true;
+                } else {
+                    isImg = false;
+                }
+                updateButtonState()
+            })
+            boardCondition.addEventListener("input", () => {
+                if ('<%=prod.BOARD_CONDITION%>' == boardCondition.value) {
+                    isCondition = true;
+                } else {
+                    isCondition = false;
+                }
+                updateButtonState()
+            })
+            boardTradeway.addEventListener("input", () => {
+                if ('<%=prod.BOARD_TRADEWAY%>' == boardTradeway.value) {
+                    isTradeway = true;
+                } else {
+                    isTradeway = false;
+                }
+                updateButtonState()
+            })
+            boardPollution.addEventListener("input", () => {
+                if ('<%=prod.BOARD_POLLUTION%>' == boardPollution.value) {
+                    isPollution = true;
+                } else {
+                    isPollution = false;
+                }
+                updateButtonState()
+            })
+            boardDetail.addEventListener("input", () => {
+                if ('<%=prod.BOARD_DETAIL%>' == boardDetail.value) {
+                    isDetail = true;
+                } else {
+                    isDetail = false;
+                }
+                updateButtonState()
+            })
+            boardIstrading.addEventListener("input", () => {
+                if ('<%=prod.BOARD_ISTRADING%>' == boardIstrading.value) {
+                    isIstrading = true;
+                } else {
+                    isIstrading = false;
+                }
+                updateButtonState()
+            })
+            boardViews.addEventListener("input", () => {
+                if ('<%=prod.BOARD_VIEWS%>' == boardViews.value) {
+                    isViews = true;
+                } else {
+                    isViews = false;
+                }
+                updateButtonState()
+            })
+            boardRegion.addEventListener("input", () => {
+                if ('<%=prod.BOARD_REGION%>' == boardRegion.value) {
+                    isRegion = true;
+                } else {
+                    isRegion = false;
+                }
+                updateButtonState()
+            })
+            boardRegionDetail.addEventListener("input", () => {
+                if ('<%=prod.BOARD_REGIONDETAIL%>' == boardRegionDetail.value) {
+                    isRegionDetail = true;
+                } else {
+                    isRegionDetail = false;
+                }
+                updateButtonState()
+            })
+            boardCreateTime.addEventListener("input", () => {
+                if ('<%=prod.BOARD_CREATETIME%>' == boardCreateTime.value) {
+                    isCreateTime = true;
+                } else {
+                    isCreateTime = false;
+                }
+                updateButtonState()
+            })
+            boardCategory.addEventListener("input", () => {
+                if ('<%=prod.BOARD_CATEGORY%>' == boardCategory.value) {
+                    isCategory = true;
+                } else {
+                    isCategory = false;
+                }
+                updateButtonState()
+            })
+            boardBuyerId.addEventListener("input", () => {
+                if ('<%=prod.BOARD_BUYERID%>' == boardBuyerId.value) {
+                    isBuyerId = true;
+                } else {
+                    isBuyerId = false;
+                }
+                updateButtonState()
+            })
+            boardIsBuyerOk.addEventListener("input", () => {
+                if ('<%=prod.BOARD_ISBUYEROK%>' == boardIsBuyerOk.value) {
+                    isBuyerOk = true;
+                } else {
+                    isBuyerOk = false;
+                }
+                updateButtonState()
+            })
+            boardIsSellerOk.addEventListener("input", () => {
+                if ('<%=prod.BOARD_ISSELLEROK%>' == boardIsSellerOk.value) {
+                    isSellerOk = true;
+                } else {
+                    isSellerOk = false;
+                }
+                updateButtonState()
+            })
+
+
+            function updateButtonState() {
+                if (isTitle == false || isPrice == false ||
+                    isImg == false || isCondition == false ||
+                    isTradeway == false || isPollution == false ||
+                    isDetail == false || isIstrading == false ||
+                    isViews == false || isRegion == false ||
+                    isRegionDetail == false || isCreateTime == false ||
+                    isCategory == false || isBuyerId == false ||
+                    isBuyerOk == false || isSellerOk == false) {
+                        submitBtn.disabled = false
+                } else {
+                    submitBtn.disabled = true;
+                }
+
+            }
+
+            const readURL = (input) => {
+                const file = input.files[0];
+                if ( file != "" ) {
+                    let reader = new FileReader();
+                    reader.readAsDataURL( file )
+                    reader.onload = (e) => {
+                        document.querySelector(".viewImg").src = e.target.result;
+                    }
+                }
+            }
+
+
+            function submit() {
+                form.submit();
+            }
+
+
+    </script>
+</body>
+</html>

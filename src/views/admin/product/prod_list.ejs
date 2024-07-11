@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/resources/css/admin/default/default.css" rel="stylesheet">
+    <link href="/resources/css/admin/product/prod_list.css" rel="stylesheet">
+    <%- include("../../common/header.ejs") %>
+</head>
+<body>
+    <%- include("../../admin/default/menu.ejs") %>
+    <div class="body">
+        <h2>상품관리</h2>
+        <div class="prod_search_wrapper">
+            <h4>상품 검색</h4>
+            <select class="prod_search_select">
+                <option value="BOARD_NUM" selected>게시글 번호</option>
+                <option value="BOARD_ID">판매자</option>
+                <option value="BOARD_TITLE">제목</option>
+                <option value="BOARD_PRICE">가격</option>
+                <option value="BOARD_CATEGORY">카테고리</option>
+            </select>
+            <input class="prod_search" type="text">
+            <input class="prod_search_btn" type="button" value="검색">
+        </div>
+        <div class="mng_prod_body_wrapper">
+            <div class="mng_prod_table_wrapper">
+                <table class="mng_prod_table" width="1200">
+                    <thead>
+                        <tr>
+                            <th class="title" width="60px">선택</th>
+                            <th class="title" width="120px">게시글 번호</th>
+                            <th class="title" width="120px">판매자</th>
+                            <th class="title" width="250px">제목</th>
+                            <th class="title" width="120px">가격</th>
+                            <th class="title" width="150px">사진</th>
+                            <th class="title" width="100px">상태</th>
+                            <th class="title" width="100px">거래방식</th>
+                            <th class="title" width="100px">상품상태</th>
+                            <th class="title" width="150px">상세</th>
+                            <th class="title" width="100px">거래현황</th>
+                            <th class="title" width="100px">조회수</th>
+                            <th class="title" width="150px">지역</th>
+                            <th class="title" width="150px">지역상세</th>
+                            <th class="title" width="450px">생성시간</th>
+                            <th class="title" width="150px">카테고리</th>
+                            <th class="title" width="150px">구매자</th>
+                            <th class="title" width="150px">구매자 승인</th>
+                            <th class="title" width="150px">판매자 승인</th>
+                        </tr>
+                    </thead>
+                    <tbody class="prod_list">
+                        <% let cnt=0; pageContent.forEach((item) => {  %>
+                            <tr class="content_tr">
+                                <td class="content"><input class="checkbox" type="checkbox" id="<%=item.BOARD_NUM%>" onclick="checkBox(`<%=item.BOARD_NUM%>`)"></td>
+                                <td class="content"><%=item.BOARD_NUM%></td>
+                                <td class="content"><%=item.BOARD_ID%></td>
+                                <td class="content"><%= item.BOARD_TITLE %></td>
+                                <td class="content" style="text-align: right;"><%=item.BOARD_PRICE%> 원</td>
+                                <td class="content"><%=item.BOARD_IMG%></td>
+                                <td class="content"><%=item.BOARD_CONDITION%></td>
+                                <td class="content"><%=item.BOARD_TRADEWAY%></td>
+                                <td class="content"><%=item.BOARD_POLLUTION%></td>
+                                <td class="content"><%=item.BOARD_DETAIL%></td>
+                                <td class="content"><%=item.BOARD_ISTRADING%></td>
+                                <td class="content"><%=item.BOARD_VIEWS%></td>
+                                <td class="content"><%=item.BOARD_REGION%></td>
+                                <td class="content"><%=item.BOARD_REGIONDETAIL%></td>
+                                <td class="content"><%=item.BOARD_CREATETIME%></td>
+                                <td class="content"><%=item.BOARD_CATEGORY%></td>
+                                <td class="content"><%=item.BOARD_BUYERID%></td>
+                                <td class="content"><%=item.BOARD_ISBUYEROK%></td>
+                                <td class="content"><%=item.BOARD_ISSELLEROK%></td>
+                            </tr>
+                        <% cnt++ })  %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mng_prod_bot_nav">
+                <label class="mng_prod_nav_label">총 <%=total['COUNT(*)']%> 건의 게시글 정보 중 <%=pageContent.length%> 개</label>
+                <div class="mng_prod_paging_wrapper">
+                    <% for (let i = 1; i <= page; i++) { %>
+                        <% if (i == 1) { %>
+                            <button class="paging" onclick="befList()" disabled >&lt;&lt;</button>
+                        <% } %>
+                        <a  class="paging" onclick="getList('<%=i%>')"><%=i%></a>
+                        <% if (i == page) { %>
+                            <button class="paging" onclick="aftList()">&gt;&gt;</button>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="mng_prod_bot_nav_input_wrapper">
+                    <input class="mng_prod_modify" type="button" value="변경">
+                    <input class="mng_prod_delete" type="button" value="삭제">
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../../default/footer.ejs") %>
+
+
+    <script>
+        let curPage = 1;
+        const tbody = document.querySelector(".prod_list");
+        let pageBtn = document.querySelectorAll(".paging");
+        let prodSearch = document.querySelector(".prod_search");
+        let prodSearchBtn = document.querySelector(".prod_search_btn")
+        let test = "";
+        pageBtn[1].className += " curPage";
+        let searchTotalPage = 0;
+        let totalPage = 0;
+
+        prodSearch.addEventListener("keypress", function () {
+            if (window.event.keyCode == 13) {
+                prodSearchBtn.click();
+            }
+        })
+
+
+        // 검색기능
+        document.querySelector(".prod_search_btn").addEventListener("click", function () {
+            curPage = 1;
+            const type = document.querySelector(".prod_search_select");
+            const text = document.querySelector(".prod_search");
+            if (text.value == "") {
+                alert("검색 내용을 입력하세요");
+                return;
+            }
+            // 검색 결과를 fetch로 전달하여 표시
+            fetch(`/admin/prod_search?type=${type.value}&text=${text.value}`)
+            .then(res => res.json())
+            .then(data => {
+                
+                // 검색 결과가 없을때 표시
+                if (data.pageContent == "") {
+                    alert("검색 결과가 없습니다.")
+                    return
+                }
+                totalPage = data.page;
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                msg = data.pageContent.forEach((item) => {
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+
+                // 현재 검색 결과 수량 표시
+                document.querySelector(".mng_prod_nav_label").innerHTML = (`총 ${data.total['COUNT(*)']} 건의 게시글 검색 결과 중 ${data.pageContent.length} 개`)
+                const searchPage = document.querySelector(".mng_prod_paging_wrapper");
+                
+                // 페이징 버튼 생성
+                let msg1 = "";
+                for (let i = 1; i <= data.page; i++) {
+                    if (i == 1) {
+                        msg1 += `<button class="paging" onclick="befSearchList()" disabled >&lt;&lt;</button>`
+                    }
+                    msg1 += `<a  class="paging" onclick="getSearchList(${i}, ${data.page})">${i}</a>`
+                    if (i == data.page) {
+                        msg1 += `<button class="paging" onclick="aftSearchList()">&gt;&gt;</button>`
+                    }
+                }
+                // const page = document.querySelectorAll(".paging");
+                searchPage.innerHTML = msg1;
+
+                // 페이징 현재 페이지 강조를 위한 클래스 추가
+                pageBtn = document.querySelectorAll(".paging");
+                pageBtn[1].className = "paging curPage"
+
+                
+                if (pageBtn.length <= 3) {
+                    pageBtn[2].disabled = true;
+                }
+            })
+
+        })
+
+
+        function getSearchList(page, totalPage) {
+            // 검색 결과내에서 페이지가 나뉠경우 이동
+            fetch(`/admin/prod_search_list?page=${page}&`)
+            .then(res => res.json())
+            .then(data => {
+                //현재 페이지를 다른함수에서 사용할 수 있도록 설정
+                curPage = page;
+
+                // 현재 페이지 강조를 위한 class이름 추가
+                for (let i = 1; i <= totalPage; i++) {
+                    pageBtn[i].className = "paging";
+                }
+                pageBtn[page].className = "paging curPage";
+
+                // page <<, >> disable 처리
+                if (curPage != 1) {
+                    pageBtn[0].disabled = false
+                } else {
+                    pageBtn[0].disabled = true;
+                }
+
+                if (curPage == totalPage) {
+                    pageBtn[pageBtn.length-1].disabled = true;
+                } else {
+                    pageBtn[pageBtn.length-1].disabled = false;
+                }
+
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                msg = data.pageContent.forEach((item) => {
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+                document.querySelector(".mng_prod_nav_label").innerHTML = (`총 ${data.total['COUNT(*)']} 건의 게시글 검색 결과 중 ${data.pageContent.length} 개`)
+                const searchPage = document.querySelector(".mng_prod_paging_wrapper");
+            })
+        }
+
+
+        function aftList() {
+            curPage ++;
+            getList(curPage);
+        }
+
+        function befList() {
+            curPage --;
+            getList(curPage);
+        }
+        
+        function aftSearchList() {
+            curPage ++;
+            getSearchList(curPage, totalPage);
+        }
+        function befSearchList() {
+            curPage --;
+            getSearchList(curPage, totalPage);
+        }
+
+
+
+
+
+
+        function getList(page) {
+            fetch(`/admin/prod_page_list?page=${page}`)
+            .then(res => res.json())
+            .then(data => {
+                //현재 페이지를 다른함수에서 사용할 수 있도록 설정
+                curPage = page;
+
+                // 현재 페이지 강조를 위한 class이름 추가
+                for (let i = 1; i <= '<%=page%>'; i++) {
+                    pageBtn[i].className = "paging";
+                }
+                pageBtn[page].className += " curPage";
+
+                // page <<, >> disable 처리
+                if (curPage != 1) {
+                    pageBtn[0].disabled = false
+                } else {
+                    pageBtn[0].disabled = true;
+                }
+
+                if (curPage == '<%=page%>') {
+                    pageBtn[pageBtn.length-1].disabled = true;
+                } else {
+                    pageBtn[pageBtn.length-1].disabled = false;
+                }
+
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                data.pageContent.forEach((item) => { 
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+                document.querySelector(".mng_prod_nav_label").innerHTML = (`총 <%=total['COUNT(*)']%> 건의 게시글 정보 중 ${data.pageContent.length} 개</label>`)
+
+            })
+        }
+
+
+        const table = document.querySelector(".mng_prod_table")
+        var mousedown = false; //마우스를 누른 상태
+        var td = "";           //사이즈 변경할 td
+        var td_width;          //변경할 td의 width,
+        var x = 0;             //마우스 드레그전 가로위치
+
+        function TCstartColResize(obj){
+            mousedown = true;
+            td = obj;
+            td_width = td.offsetWidth;
+            x = event.clientX;
+            distY=0;
+            distZ = 0;
+        }
+
+        function TCColResize()
+        {
+            if (mousedown){
+                    var distX = event.x - x; //이동한 간격
+                    td.style.width = parseInt(td_width) + parseInt(distX)+"px";
+                    distZ = distX - distY
+                    // table.style.width = table.style.width + parseInt(distZ) + "px";
+                    distY = distX
+            }
+        }
+
+        function TCstopColResize(){
+            mousedown = false;
+            td = '';
+        }
+
+        function cell_left(obj){//마우스가 셀의 왼쪽인지 측정
+            if(event.offsetX < 10 && obj.className == "title"){
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function cell_right(obj){//마우스가 셀의 오른쪽인지 측정
+            if(event.offsetX > obj.offsetWidth-10) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        //리사이즈시작
+        document.onmousedown = function(){
+        try{
+            var now_mousedown = window.event.srcElement;
+            if(now_mousedown.className.toUpperCase()=="TITLE"){
+                    if( cell_left(now_mousedown) ){
+                            now_mousedown = now_mousedown.parentNode.childNodes[now_mousedown.cellIndex*2 -1];
+                    }else if( !cell_right(now_mousedown) ){
+                            return true;//오른쪽도 왼쪽도 아니면 사이즈 조절 안함
+                    }
+                    TCstartColResize(now_mousedown);
+            }
+        }catch(e){ return true; }
+        }
+
+        //리사이즈
+        document.onmousemove = function(){
+        try{
+            var now_mousemove = window.event.srcElement;
+            if(now_mousemove.className.toUpperCase()=="TITLE" || td!=""){
+
+                    //셀의 가장자리면 마우스 커서 변경
+                    if( cell_left(now_mousemove) || cell_right(now_mousemove) ){
+                            now_mousemove.style.cursor = "col-resize";
+                        }else{
+                            now_mousemove.style.cursor = "";
+                    }
+
+                    TCColResize(now_mousemove);
+            }else{
+                    now_mousemove.style.cursor = "";
+            }
+        }catch(e){ return true; }
+        }
+
+        //리사이즈종료
+        document.onmouseup = function(){
+        try{
+            var now_mouseup = window.event.srcElement;
+            //if(now_mouseup.className=="colResize"){
+                    TCstopColResize("mouseup : ", now_mouseup);
+            //}
+        }catch(e){ return true; }
+        }
+
+        //리사이즈 도중 텍스트 선택 금지
+        document.onselectstart = function(){
+        try{
+            if(td != ""){
+                return false;
+            }
+        }catch(e){ return true; }
+        }
+
+
+
+
+
+        // 테이블의 행을 클릭하면 체크박스 클릭이벤트 발생
+        // const contentTr = document.querySelectorAll(".content_tr")
+        // const chkBox = document.querySelectorAll(".checkbox")
+        // for (let i = 0; i < contentTr.length; i++) {
+        //     contentTr[i].addEventListener("click", function() {
+        //         chkBox[i].click();
+        //     })
+        // }
+
+        let arr = [];
+        function checkBox (itemId) {
+            const result = document.getElementById(itemId)
+            console.log(result.checked)
+            if (result.checked) {
+                arr.push(itemId)
+                console.log("arr1 : ", arr)
+            } else {
+                arr = arr.filter(item => item != itemId)
+                console.log("arr2 : ", arr)
+            }
+        }
+
+        const delProd = document.querySelector(".mng_prod_delete");
+        delProd.addEventListener("click", function () {
+            if (arr.length > 0) {
+                if (confirm(`${arr.length}개의 상품을 삭제하시겠습니까?`)){
+                    let query = arr.map(item => `arr=${item}`).join("&");
+                    location.href=`/admin/prod_del/?${query}`
+                }
+            } else {
+                alert("삭제할 상품을 선택해주세요")
+            }
+        })
+
+        const modProd = document.querySelector(".mng_prod_modify");
+        modProd.addEventListener("click", function () {
+            if (arr.length == 1) {
+                location.href=`/admin/prod_mod/?num=${arr}`
+            } else if (arr.length == 0 ) {
+                alert("변경할 상품을 선택해주세요");
+            } else {
+                alert("변경할 상품 한개만 선택해주세요");
+            }
+        })
+
+
+        function contentMsg(item) {
+            let msg = "";
+            msg += `<tr class="content_tr">`
+            msg += `<td class="content"><input class="checkbox" type="checkbox" id="${item.BOARD_NUM}" onclick="checkBox(${item.BOARD_NUM})"></td>`
+            msg += `<td class="content">${item.BOARD_NUM}</td>`
+            msg += `<td class="content">${item.BOARD_ID}</td>`
+            msg += `<td class="content">${item.BOARD_TITLE}</td>`
+            msg += `<td class="content" style="text-align: right;">${item.BOARD_PRICE} 원</td>`
+            msg += `<td class="content">${item.BOARD_IMG}</td>`
+            msg += `<td class="content">${item.BOARD_CONDITION}</td>`
+            msg += `<td class="content">${item.BOARD_TRADEWAY}</td>`
+            msg += `<td class="content">${item.BOARD_POLLUTION}</td>`
+            msg += `<td class="content">${item.BOARD_DETAIL}</td>`
+            msg += `<td class="content">${item.BOARD_ISTRADING}</td>`
+            msg += `<td class="content">${item.BOARD_VIEWS}</td>`
+            msg += `<td class="content">${item.BOARD_REGION}</td>`
+            msg += `<td class="content">${item.BOARD_REGIONDETAIL}</td>`
+            msg += `<td class="content">${item.BOARD_CREATETIME}</td>`
+            msg += `<td class="content">${item.BOARD_CATEGORY}</td>`
+            msg += `<td class="content">${item.BOARD_BUYERID}</td>`
+            msg += `<td class="content">${item.BOARD_ISBUYEROK}</td>`
+            msg += `<td class="content">${item.BOARD_ISSELLEROK}</td>`
+            msg += `</tr>`
+            return msg;
+        }
+
+    </script>
+</body>
+</html>

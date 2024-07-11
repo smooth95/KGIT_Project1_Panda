@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link href="/resources/css/header.module.css?after" rel="stylesheet" >
+    <link href="/resources/css/info/productM.css" rel="stylesheet" >
+  </head>
+  <body>
+    <header>
+    <%- include ("../common/header") %>
+  </header>
+  
+  <div id="root">
+    <div class="app">
+      <div class="sc-hGoxap blnodS">
+        <div class="sc-cPuPxo bzn0jk">
+          <div class="sc-hvvHee jSmAZQ">
+            <div class="sc-bYnzg0 kqmAer">
+              <div class="sc-jXQZql jiarQh">
+                
+                <div class="sc-lnrbBVv cFVlDW">
+                  
+                  <div class="jSmAZQ">
+                    <div class="sc-lnrbBVv cFVlDW">
+                      <div class="sc-jxGEyO drYqMd">
+                        <div class="sc-dEfkYy ckyNBp" style="width: fit-content;">
+                          <%- include ("./profile.ejs") %>
+                          <div class="sc-cqPOvA gxRxBk"></div>
+                          </div>
+                          
+                          </div>
+                          <div class="sc-gNJABl cgKkBr" style="display: flex; justify-content: flex-end;">
+                            <a class="sc-yZwTr gjjbyQ" href="">전체</a>
+                            <a class="sc-yZwTr gjjbyQ" href="">판매</a>
+              <a class="sc-yZwTr gjjbyQ" href="">예약중</a>
+              <a class="sc-yZwTr gjjbyQ" href="">판매완료</a>
+              <hr>
+            </div>
+
+            <div class="sc-fvLVrH dUcFyG">
+              <div class="sc-kqlzXE kdQTYb">
+                <div class="sc-gpHHfC dvLjiM">
+                  <a class="sc-gVyKpa gmerZt01" style="display: none;">
+                    글번호
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    사진
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    판매상태
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    상품명
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    가격
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    작성일
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    조회수
+                  </a>
+                  <a class="sc-gVyKpa gmerZt01">
+                    기능
+                  </a>
+                  
+                </div>
+                </div>
+      </div>
+
+      <%  productM.forEach(info=>{ %>
+      <div class=" text-center">
+        <div class="row row-cols-7">
+            <div class="col" style="margin-top: -40px;"  >
+          <div class="col" style="display: none;" name="board_num"><%= info.BOARD_NUM %></div>
+
+          <img src="/resources/upload/panda_p.png" width="100px" height="100px"></div>
+
+            <div class="col">
+
+            <div class="dropdown">
+              <button class="dropbtn"> 
+                <span class="dropbtn_icon">전체</span>
+              </button>
+              <div class="dropdown-content">
+                <a href="#">판매중</a>
+                <a href="#">예약중</a>
+                <a href="#">판매완료</a>
+              </div>
+            </div>
+
+          </div>
+
+          <a href="/info/content/<%= info.BOARD_VIEWS %>/<%=info.BOARD_NUM%>" class="col" name="board_title">
+            <%= info.BOARD_TITLE %>
+          </a>
+          <div class="col" name="board_price"><%= info.BOARD_PRICE %></div>
+          <div class="col" name="board_createTime"><%= info.BOARD_CREATETIME %></div>
+          <div class="col" name="board_views"><%= info.BOARD_VIEWS %></div><!--조회수-->
+          <div class="col">
+            <button type="button">수정</button>
+            <button type="button">삭제</button>
+          </div>
+          <% }) %>
+        </div>
+    
+      <hr>
+      
+<div class= "text-center">
+  <div class="row">
+    <div class="col">
+    </div>
+    <!---->
+    <div class="col">
+
+        <% if( start <= 1){ %>
+          <button disabled>이전</button>
+      <%}else{%>
+          <button type="button" onclick="
+              location.href='/info/productM?start=<%=start - 1%>'">이전</button>
+      <% }for(let i=1 ; i <= totalPage ; i++ ){ %>
+          <a href="/info/productM?start=<%= i %>"><%= i %></a>
+      <% }if( start < totalPage ){%>
+          <button type="button" onclick="
+              location.href='/info/productM?start=<%=start + 1%>'">다음</button>
+      <% }else{ %>
+          <button disabled>다음</button>
+      <% } %>
+   <%= start %> / <%= totalPage %> 
+
+  </div>
+  <div class="col">
+
+    <button type="button" class="btn btn-secondary">글쓰기</button>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+
+<div class="sc-fjhmcy flxQHS"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<%- include ("../common/footer") %>
+</div>
+
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+      integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

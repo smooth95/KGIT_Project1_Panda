@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/resources/css/admin/default/default.css" rel="stylesheet">
+    <link href="/resources/css/admin/member/mem_list.css" rel="stylesheet">
+    <%- include("../../common/header.ejs") %>
+</head>
+<body>
+    <%- include("../../admin/default/menu.ejs") %>
+    <div class="body">
+        <h2>멤버관리</h2>
+        <div class="mem_search_wrapper">
+            <h4>회원 검색</h4>
+            <select class="mem_search_select">
+                <option value="INFO_ID" selected>회원 아이디</option>
+                <option value="INFO_NAME">회원 이름</option>
+                <option value="INFO_ADMIN">권한</option>
+            </select>
+            <input class="mem_search" type="text">
+            <input class="mem_search_btn" type="button" value="검색">
+        </div>
+        <div class="mng_mem_body">
+            <div class="mng_mem_body_table">
+                <table class="mng_mem_table">
+                    <thead>
+                        <tr>
+                            <th class="title">선택</th>
+                            <th class="title">아이디</th>
+                            <th class="title">이름</th>
+                            <th class="title">지역</th>
+                            <th class="title">전화번호</th>
+                            <th class="title">포인트</th>
+                            <th class="title">권한</th>
+                        </tr>
+                    </thead>
+                    <tbody class="mem_list">
+                        <% let cnt=0; pageContent.forEach((item) => {  %>
+                            <tr class="content_tr">
+                                <td class="content"><input class="checkbox" type="checkbox" id="<%=item.INFO_ID%>" onclick="checkBox(`<%=item.INFO_ID%>`)"></td>
+                                <td class="content"><%=item.INFO_ID%></td>
+                                <td class="content"><%=item.INFO_NAME%></td>
+                                <td class="content">
+                                    <% if (item.INFO_REGION == null) { %>
+                                        -
+                                    <% } else { %>
+                                        <%= item.INFO_REGION %>
+                                    <% } %>
+                                <td class="content"><%=item.INFO_PHONE%></td>
+                                <td class="content"><%=item.INFO_POINT%></td>
+                                <td class="content">
+                                    <% if (item.INFO_ADMIN == 0) { %>
+                                        일반
+                                    <% } else { %>
+                                        관리자
+                                    <% } %>
+                                </td>
+                            </tr>
+                        <% cnt++ })  %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mng_mem_bot_nav">
+                <label class="mng_mem_nav_label">총 <%=total['COUNT(*)']%> 건의 회원 정보 중 <%=pageContent.length%> 건의 회원 조회</label>
+                
+                <div class="mng_mem_paging_wrapper">
+                    <% for (let i = 1; i <= page; i++) { %>
+                        <% if (i == 1) { %>
+                            <button class="paging" onclick="befList()" disabled >&lt;&lt;</button>
+                        <% } %>
+                        <a  class="paging" onclick="getList('<%=i%>')"><%=i%></a>
+                        <% if (i == page) { %>
+                            <button class="paging" onclick="aftList()">&gt;&gt;</button>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="mng_mem_bot_nav_input_wrapper">
+                    <input class="mng_mem_add" onclick="location.href='/admin/mem_add'" type="button" value="추가">
+                    <input class="mng_mem_modify" type="button" value="변경">
+                    <input class="mng_mem_delete" type="button" value="삭제">
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <%- include("../../default/footer.ejs") %>
+    <script>
+        let curPage = 1;
+        let pageBtn = document.querySelectorAll(".paging");
+        const tbody = document.querySelector(".mem_list");
+        pageBtn[1].className += " curPage";
+        let memSearch = document.querySelector(".mem_search");
+        let memSearchBtn = document.querySelector(".mem_search_btn")
+        // 테이블의 행을 클릭하면 체크박스 선택되게끔
+        // const contentTr = document.querySelectorAll(".content_tr")
+        // const chkBox = document.querySelectorAll(".checkbox")
+        // for (let i = 0; i < contentTr.length; i++) {
+        //     contentTr[i].addEventListener("click", function() {
+        //         if (chkBox[i].checked == true) {
+        //             chkBox[i].checked = false
+        //         } else {
+        //             chkBox[i].checked = true
+        //         }
+        //     })
+        // }
+        memSearch.addEventListener("keypress", function () {
+            if (window.event.keyCode == 13) {
+                memSearchBtn.click();
+            }
+        })
+
+        let arr = [];
+        function checkBox (itemId) {
+            const result = document.getElementById(itemId)
+            if (result.checked) {
+                arr.push(itemId)
+            } else {
+                arr = arr.filter(item => item != itemId)
+            }
+        }
+
+        const delMem = document.querySelector(".mng_mem_delete");
+        delMem.addEventListener("click", function () {
+            if (arr.length > 0) {
+                if (confirm(`${arr.length}개의 회원정보를 삭제하시겠습니까?`)){
+                    let params = arr.map(item => `arr=${item}`).join("&");
+                    location.href=`/admin/mem_del/?${params}`
+                }
+            } else {
+                alert("삭제할 회원을 선택해주세요")
+            }
+        })
+
+        const modMem = document.querySelector(".mng_mem_modify");
+        modMem.addEventListener("click", function () {
+            if (arr.length == 1) {
+                location.href=`/admin/mem_mod/?id=${arr}`
+            } else if (arr.length == 0 ) {
+                alert("변경할 회원을 선택해주세요");
+            } else {
+                alert("변경할 회원 한명만 선택해주세요");
+            }
+        })
+
+
+        // 검색기능
+        document.querySelector(".mem_search_btn").addEventListener("click", function () {
+            curPage = 1;
+            const type = document.querySelector(".mem_search_select");
+            const text = document.querySelector(".mem_search");
+            if (text.value == "") {
+                alert("검색 내용을 입력하세요");
+                return;
+            }
+            // 검색 결과를 fetch로 전달하여 표시
+            fetch(`/admin/mem_search?type=${type.value}&text=${text.value}`)
+            .then(res => res.json())
+            .then(data => {
+                
+                // 검색 결과가 없을때 표시
+                if (data.pageContent == "") {
+                    alert("검색 결과가 없습니다.")
+                    return
+                }
+                totalPage = data.page;
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                msg = data.pageContent.forEach((item) => {
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+
+                // 현재 검색 결과 수량 표시
+                document.querySelector(".mng_mem_nav_label").innerHTML = (`총 ${data.total['COUNT(*)']} 건의 게시글 검색 결과 중 ${data.pageContent.length} 개`)
+                const searchPage = document.querySelector(".mng_mem_paging_wrapper");
+                
+                // 페이징 버튼 생성
+                let msg1 = "";
+                for (let i = 1; i <= data.page; i++) {
+                    if (i == 1) {
+                        msg1 += `<button class="paging" onclick="befSearchList()" disabled >&lt;&lt;</button>`
+                    }
+                    msg1 += `<a  class="paging" onclick="getSearchList(${i}, ${data.page})">${i}</a>`
+                    if (i == data.page) {
+                        msg1 += `<button class="paging" onclick="aftSearchList()">&gt;&gt;</button>`
+                    }
+                }
+                // const page = document.querySelectorAll(".paging");
+                searchPage.innerHTML = msg1;
+
+                // 페이징 현재 페이지 강조를 위한 클래스 추가
+                pageBtn = document.querySelectorAll(".paging");
+                pageBtn[1].className = "paging curPage"
+
+                
+                if (pageBtn.length <= 3) {
+                    pageBtn[2].disabled = true;
+                }
+            })
+
+        })
+
+
+        function getSearchList(page, totalPage) {
+            // 검색 결과내에서 페이지가 나뉠경우 이동
+            fetch(`/admin/mem_search_list?page=${page}&`)
+            .then(res => res.json())
+            .then(data => {
+                //현재 페이지를 다른함수에서 사용할 수 있도록 설정
+                curPage = page;
+
+                // 현재 페이지 강조를 위한 class이름 추가
+                for (let i = 1; i <= totalPage; i++) {
+                    pageBtn[i].className = "paging";
+                }
+                pageBtn[page].className = "paging curPage";
+
+                // page <<, >> disable 처리
+                if (curPage != 1) {
+                    pageBtn[0].disabled = false
+                } else {
+                    pageBtn[0].disabled = true;
+                }
+
+                if (curPage == totalPage) {
+                    pageBtn[pageBtn.length-1].disabled = true;
+                } else {
+                    pageBtn[pageBtn.length-1].disabled = false;
+                }
+
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                msg = data.pageContent.forEach((item) => {
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+                document.querySelector(".mng_mem_nav_label").innerHTML = (`총 ${data.total['COUNT(*)']} 건의 게시글 검색 결과 중 ${data.pageContent.length} 개`)
+                const searchPage = document.querySelector(".mng_mem_paging_wrapper");
+            })
+        }
+
+
+        function aftList() {
+            curPage ++;
+            getList(curPage);
+        }
+
+        function befList() {
+            curPage --;
+            getList(curPage);
+        }
+        
+        function aftSearchList() {
+            curPage ++;
+            getSearchList(curPage, totalPage);
+        }
+        function befSearchList() {
+            curPage --;
+            getSearchList(curPage, totalPage);
+        }
+
+
+
+
+
+
+        function getList(page) {
+            fetch(`/admin/prod_page_list?page=${page}`)
+            .then(res => res.json())
+            .then(data => {
+                //현재 페이지를 다른함수에서 사용할 수 있도록 설정
+                curPage = page;
+
+                // 현재 페이지 강조를 위한 class이름 추가
+                for (let i = 1; i <= '<%=page%>'; i++) {
+                    pageBtn[i].className = "paging";
+                }
+                pageBtn[page].className += " curPage";
+
+                // page <<, >> disable 처리
+                if (curPage != 1) {
+                    pageBtn[0].disabled = false
+                } else {
+                    pageBtn[0].disabled = true;
+                }
+
+                if (curPage == '<%=page%>') {
+                    pageBtn[pageBtn.length-1].disabled = true;
+                } else {
+                    pageBtn[pageBtn.length-1].disabled = false;
+                }
+
+                //불러온 데이터 내용 html에 표시
+                let msg = "";
+                data.pageContent.forEach((item) => { 
+                    msg += contentMsg(item);
+                    tbody.innerHTML = msg;
+                })
+                document.querySelector(".mng_prod_nav_label").innerHTML = (`총 <%=total['COUNT(*)']%> 건의 게시글 정보 중 ${data.pageContent.length} 개</label>`)
+
+            })
+        }
+        function contentMsg(item) {
+            let msg = "";
+            msg += `<tr class="content_tr">`
+            msg += `<td class="content"><input class="checkbox" type="checkbox" id="${item.INFO_ID}" onclick="checkBox('${item.INFO_ID}'')"></td>`
+            msg += `<td class="content">${item.INFO_ID}</td>`
+            msg += `<td class="content">${item.INFO_NAME}</td>`
+            msg += `<td class="content">`
+            if (item.INFO_REGION == null) {
+                msg += `-`
+            } else {
+                msg += `${item.INFO_REGION}`
+            }
+            msg += `<td class="content">${item.INFO_PHONE}</td>`
+            msg += `<td class="content">${item.INFO_POINT}</td>`
+            msg += `<td class="content">`
+            if (item.INFO_ADMIN == 0) {
+                msg += `일반`
+            } else {
+                msg += `관리자`
+            }
+            msg += `</td>`
+            msg += `</tr>`
+            return msg;
+        }
+
+    </script>
+</body>
+</html>

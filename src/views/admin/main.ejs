@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="/resources/css/admin/default/default.css" rel="stylesheet">
+    <link href="/resources/css/admin/main/main.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <%- include("../common/header") %>
+</head>
+<body>
+    <%- include("../admin/default/menu") %>
+    <div class="body">
+        <h2>대시보드</h2>
+        <div class="main_body_wrapper">
+            <div class="chart_wrapper">
+                <label class="chart_title">전체 게시글 수</label>
+                <canvas id="boardTotal" width="200" height="200"></canvas>
+                <div class="chart_info_wrapper">
+                    <label class="boardTotalInfo"></label>
+                    <label class="boardTradeInfo"></label>
+                </div>
+            </div>
+            <div class="chart_wrapper">
+                <label class="chart_title">카테고리 별<br> 게시글 수</label>
+                <canvas id="categoryTotal" width="200" height="200"></canvas>
+                <div class="chart_info_wrapper">
+                    <label class="boardCategoryFirst"></label>
+                    <label class="boardCategorySecond"></label>
+                    <label class="boardCategoryThird"></label>
+                </div>
+            </div>
+            <div class="main_bot_nav">
+                <div class="main_paging_wrapper">
+                    
+                </div>
+                <div class="main_bot_nav_input_wrapper">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include("../default/footer.ejs") %>
+
+    <script>
+
+        
+        var boardTotal = document.getElementById('boardTotal').getContext('2d');
+        var categoryTotal = document.getElementById('categoryTotal').getContext('2d');
+        var boardTotalInfo = document.querySelector(".boardTotalInfo");
+        var boardTradeInfo = document.querySelector(".boardTradeInfo");
+        var boardCategoryFirst = document.querySelector(".boardCategoryFirst");
+        var boardCategorySecond = document.querySelector(".boardCategorySecond");
+        var boardCategoryThird = document.querySelector(".boardCategoryThird");
+        getData();
+            
+        setInterval(() => {
+            getData();
+        }, 1000 * 20) // ms, 초, 분, 시 
+
+        
+
+
+        function getData() {
+
+           
+
+            fetch(`/admin/main_get_data`)
+            .then(res => res.json())
+            .then(data => {
+                // 전체 게시물 차트 업데이트
+                myChart1.data.datasets[0].data[0] = data.total;
+                myChart1.data.datasets[0].data[1] = data.trade;
+                myChart1.update();
+                
+                boardTotalInfo.innerHTML = `<a href="/admin/prod_list">전체 게시물 : ${data.total}</a>`
+                // "전체 게시물 : "+data.total;
+                boardTradeInfo.innerHTML = "거래중인 게시물 : "+data.trade;
+
+                
+                myChart2.data.datasets[0].data[0] = data.category[0].COUNT;
+                myChart2.data.datasets[0].data[1] = data.category[1].COUNT;
+                myChart2.data.datasets[0].data[2] = data.category[2].COUNT;
+                myChart2.update();
+                // 카테고리별 게시물 차트 업데이트
+                boardCategoryFirst.innerHTML = `<label>TOP1 - ${data.category[0].BOARD_CATEGORY} : ${data.category[0].COUNT}건</label>`
+                boardCategorySecond.innerHTML = `<label>TOP2 - ${data.category[1].BOARD_CATEGORY} : ${data.category[1].COUNT}건</label>`
+                boardCategoryThird.innerHTML = `<label>TOP3 - ${data.category[2].BOARD_CATEGORY} : ${data.category[2].COUNT}건</label>`
+            })
+        }
+
+        // 차트 데이터 설정
+        var data1 = {
+            datasets: [{
+                data: [10, 20],
+                backgroundColor: [
+                    'rgb(190, 190, 190)',
+                    'rgb(220, 220, 220)',
+                ]
+            }],
+            // labels: ["Red", "Blue", "Yellow"],
+        };
+        var data2 = {
+            datasets: [{
+                data : [0, 0, 0],
+                backgroundColor: [
+                    'rgb(190, 190, 190)',
+                    'rgb(220, 220, 220)',
+                ]
+            }],
+            // labels: ["Red", "Blue", "Yellow"],
+        }
+
+        // 옵션 설정
+        var options = {
+            // cutoutPercentage: 50, // 도넛 차트의 중앙에 빈 공간을 만들어줍니다.
+            rotation: -40 * Math.PI, // 시작 각도를 설정합니다. 기본값은 0입니다.
+            circumference: 80 * Math.PI, // 그래프의 전체 둘레를 설정합니다. 기본값은 2 * Math.PI입니다.
+            responsive: false,
+        };
+
+        // 원형 그래프 생성
+        var myChart1 = new Chart(boardTotal, {
+            type: 'doughnut',
+            data: data1,
+            options: options
+        });
+        var myChart2 = new Chart(categoryTotal, {
+            type: 'doughnut',
+            data: data2,
+            options: options
+        });
+    </script>
+</body>
+</html>

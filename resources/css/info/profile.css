@@ -1,0 +1,209 @@
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+.bInodS {
+  min-width: 1236px;
+}
+.bzn0jk {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  background: rgb(255, 255, 255);
+}
+.jSmAZQ {
+  width: 1024px;
+  margin-top: 30px;
+}
+.kqmAer {
+  margin-bottom: 30px;
+}
+.jiarQh {
+  display: flex;
+  width: 100%;
+}
+.ermrpj {
+  flex-shrink: 0;
+  
+}
+.ipXCvk {
+  width: 310px;
+  height: 310px;
+  position: relative;
+  color: rgb(255, 255, 255);
+  object-fit: cover;  
+}
+.leXbQf {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: transparent;
+}
+.eRUQZt {
+  /* 이미지를 가운데 정렬하기 위해 수정 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.fKhHmr {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+.kDkgVT {
+  flex: 1 0 0%;
+  padding: 0px 30px;
+  display: flex;
+  height: 310px;
+  flex-direction: column;
+}
+.hkaFNj {
+  font-size: 18px;
+  height: 75px;
+  font-weight: 600;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.ixFzSN {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-left: 50px;
+  font-weight: 600;
+}
+.hQqotf {
+  height: 56px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 50px;
+  font-weight: 600;
+}
+.hQqotf1 {
+  height: 56px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 50px;
+  margin-top: 30px;
+  font-weight: 550;
+  
+}
+.info_img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.blcYdX {
+  height: 40px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: 50%;
+  color:white;
+  border: 1px solid rgb(33, 31, 31);
+  background-color: rgb(32, 30, 30);
+  margin-top: 25px;
+  margin-left: -18px;
+  font-weight: 600;
+}
+.blcYdX1 {
+  height: 25px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid rgb(30,30,30);
+  background-color: rgb(30,30,30);
+  padding: 0;
+  color: white;
+  margin-top: -20px;
+  margin-left: -13px;
+  font-weight: 600;
+  font-size: small;
+  text-decoration: none;
+}
+.dQLwrX {
+  display: flex;
+}
+.fKhHmr {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+.dvLjiM {
+  display: flex;
+  height: 50px;
+}
+.nav-link {
+  width: 100%; /* 네비게이션 링크의 너비를 100%로 설정합니다. */
+  text-align: center; /* 텍스트를 가운데 정렬합니다. */
+}
+.nav-item {
+  flex: 1; /* 부모 요소인 nav-item의 너비를 자동으로 설정합니다. */
+}
+.kHfkPy:first-child {
+  border-left: 1px solid rgb(33, 33, 33);
+}
+.gyLEXJ {
+  margin-left: 10px;
+}
+.gmerZt {
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  display: flex;
+  border-top: 1px solid rgb(184, 184, 184);
+  border-right: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(184, 184, 184);
+  background: rgb(250, 250, 250);
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+}
+.ddd :hover{
+  background-color: black;
+}
+.gmerZt:hover{
+  color :white
+}
+
+.star-filled {
+  filter: sepia(30%) saturate(1000%) hue-rotate(3deg); /* 별이 채워진 경우의 색상 변경 */
+}
+
+.star-empty {
+  filter: grayscale(100%); /* 별이 비어있는 경우의 색상 변경 */
+}

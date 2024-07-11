@@ -1,0 +1,28 @@
+body {
+    width: 1024px;
+    margin: auto;
+    align-items: center;
+}
+
+.main_body_wrapper {
+    width: 90%;
+    display: flex;
+    gap : 10px;
+    text-align: center;
+    margin: auto;
+}
+
+.chart_wrapper {
+    margin: 20px auto 0 auto ;
+    width: 200px;
+}
+.chart_title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    height: 50px;
+}
+.chart_info_wrapper {
+    height: 70px;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <link href="/resources/css/payment/buyer_seller_page.css" rel="stylesheet">
+
+  <script src="/socket.io/socket.io.js"></script>
+  <link href="/resources/css/chat/chat.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <%- include ("../common/header") %>
+  <div class="buyer_view">
+    <div class="top_div">
+      <div id="profile_img_wrapper">
+        <img id="profile_img" src=''>
+      </div>
+      <div id="profile_wrapper">
+        <p id="title" class="profile_child">제목 : </p>
+        <p id="name" class="profile_child">판매자 이름 : </p>
+        <p id="price" class="profile_child">가격 : </p>
+        <p id="tel" class="profile_child">전화번호 : </p>
+      </div>
+      <div id="button_wrapper">
+        <input type="button" value="구매완료">
+        <input type="button" value="구매취소">
+      </div>
+    </div>
+    <div id="chat_wrapper">
+      <!-- 메시지를 표시할 UL 요소 -->
+      <div id="chat_area">
+        <!-- 채팅 입력 폼 -->
+      </div>
+      <div id="chat_text">
+        <form id="form">
+          <!-- 채팅 메시지를 입력할 input 요소 -->
+          <textarea id="input" onkeydown="handleKeyDown(event)" autocomplete="off" placeholder="전달할 텍스트 입력"></textarea>
+
+          <!-- 폼 제출 버튼 -->
+          <input type="submit" id="send" value="전달">
+        </form>
+      </div>
+    </div>
+    <div id="bottom_wrapper">
+      <h3>거래 주의사항</h3>
+      <ol>
+        <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+          dolore magna aliqua.</li>
+        <li>Nisl tincidunt eget nullam non</li>
+        <li>Quis hendrerit dolor magna eget est lorem ipsum dolor sit</li>
+        <li>Volutpat odio facilisis mauris sit amet massa</li>
+      </ol>
+    </div>
+  </div>
+</body>
+
+
+<script src="/resources/js/payment/buyerPage.js" type="application/javascript"></script>
+<script>
+  socket = io();
+  let roomId = 0;
+  // 게시판 번호
+  const num = '<%=board.BOARD_NUM%>';
+
+  // 로그인한 사용자
+  const cookie = '<%=login_user%>';
+
+  // 게시판 작성자
+  console.log("boardid : ", '<%=board.BOARD_ID%>')
+  connectUser(num, cookie, '<%=board.BOARD_ID%>');
+  let rec_count = 0
+  let count = 0
+  let readChatCount = 0;
+
+
+  function roomcheck() {
+      socket.emit('roomcheck')
+  }
+  
+  socket.on('returnMainPage', () => {
+      alert("이미 거래중인 상품입니다.")
+    //   location.href = "/chat"
+  })
+
+
+  function connectUser(num, cookie, receiveId) {
+    console.log("cookie : ", cookie)
+    console.log("receiveID : ", receiveId)
+      console.log("cli connectUser 실행")
+      roomId = num;
+      socket.emit('connectUser', roomId, cookie, receiveId)
+      // socket.emit('readChatFile', roomId, receiveId, cookie)
+  }
+
+  socket.on('readChat', (roomId, receiveId, userId) => {
+      socket.emit('readChatFile', roomId, receiveId, userId)
+  })
+
+  
+  socket.on('readChatFile', (readMsg, roomId, receiveId, sendId) => {
+      '<% console.log("readChatFile 실행") %>'
+      const chatArea = document.getElementById('chat_area');
+      if (readChatCount == 0) {
+          chatArea.innerHTML = "";
+          const lines = readMsg.trim().split('\t');
+          console.log("lines : ", lines)
+          const conversations = [];
+          let msg = "";
+          let send = "";
+          let time = "";
+          lines.forEach(line => {
+              const result = line.split(':');
+              console.log("result.length : ", result.length)
+              if (result.length == 1) {
+                  displayMessage(result[0], send, time)
+              } else {
+                  console.log(result[0])
+                  console.log(result[1])
+                  const timestamp = `${result[0]} : ${result[1]}`
+                  console.log("result[4]: ", result[4])
+                  console.log("result[3]: ", result[3])
+                  send = result[3];
+                  time = timestamp;
+                  displayMessage(result[4], result[3], timestamp)
+              }
+          });
+          const messages = document.createElement('div');
+          const item = document.createElement('p');
+          item.id = "readInfoMsg"
+          item.innerHTML = `이전 대화내용을 불러왔습니다.<br><br>`
+          messages.appendChild(item);
+          chatArea.appendChild(messages);
+          scrollToBottom(chatArea)
+
+          readChatCount = 1;
+
+          // setTimeout( () => {
+          //     test(sendId);
+          // }, 100)
+          test(sendId);
+      }
+  })
+
+
+  function test(userId) {
+      '<%= console.log("cli userConnected 실행")%>'
+      const messages = document.createElement('div');
+      const item = document.createElement('p');
+      const chatArea = document.getElementById('chat_area');
+      item.id = "infoMsg"
+      if (userId == '<%= login_user%>') {
+          item.textContent = '알림 : 채팅방에 접속하였습니다.'
+      } else {
+          item.textContent = '알림 : 상대방이 접속하였습니다.';
+      }
+      count = 0;
+      rec_count = 0;
+      messages.appendChild(item);
+      chatArea.appendChild(messages);
+      scrollToBottom(chatArea)
+  }
+
+
+
+
+  socket.on('resetChatCount', () => {
+      console.log("count 초기화")
+      readChatCount = 0;
+  })
+
+
+
+
+  form.addEventListener('submit', function(e) {
+      console.log("addEvent 실행")
+      e.preventDefault();
+      sendMessage();
+  });
+
+
+
+
+
+  function sendMessage() {
+      const input = document.getElementById('input');
+      const message = input.value;
+
+      if (message != "") {  
+          socket.emit('chat message', message, roomId, '<%=board.BOARD_ID%>', '<%= login_user%>');
+          input.value = '';
+      } else {
+          alert("내용을 입력해주세요")
+      }
+  }
+
+
+
+  socket.on('chat message', (msg, cookie, timestamp) => {
+      displayMessage(msg, cookie, timestamp);
+  });
+  
+
+
+  socket.on('userConnected', (userId) => {
+      
+      const messages = document.createElement('div');
+      const item = document.createElement('p');
+      const chatArea = document.getElementById('chat_area');
+      item.id = "infoMsg"
+      if (userId == '<%= login_user%>') {
+          item.textContent = '알림 : 채팅방에 접속하였습니다.'
+      } else {
+          item.textContent = '알림 : 상대방이 접속하였습니다.';
+      }
+      count = 0;
+      rec_count = 0;
+      messages.appendChild(item);
+      chatArea.appendChild(messages);
+      scrollToBottom(chatArea)
+  });
+
+  socket.on('userDisconnect', () => {
+      const messages = document.createElement('div');
+      const item = document.createElement('p');
+      const chatArea = document.getElementById('chat_area');
+      item.id = "infoMsg"
+      item.textContent = '알림 : 상대방이 채팅을 종료하였습니다.'
+      
+      count = 1;
+      rec_count = 1;
+      messages.appendChild(item);
+      chatArea.appendChild(messages);
+      scrollToBottom(chatArea)
+  })
+
+
+  
+
+
+
+
+
+  function displayMessage(message, receive_id, timestamp) {
+      const messages = document.createElement('div');
+      const time = document.createElement('p');
+      const item = document.createElement('p');
+      const who = document.createElement('p');
+      const chatArea = document.getElementById('chat_area');
+      const br = document.createElement('br');
+
+      // 시간 표시를 위한 시간 출력 정리
+      const result = timestamp.split(':');
+      let hour = (Number)(result[0].substring(11, 13)) + 9;
+      if (hour >= 24) {
+          hour = hour - 24;
+      }
+      let minute = result[1]
+      console.log("hour : minute : ", hour ,":", minute)
+      time.id = 'curTime'
+      time.textContent = `${hour}:${minute}`
+
+      // 서버에게서 받은 메세지가 내가 보낸 메세지면 처리할 코드
+      if (receive_id == '<%=  login_user %>') {
+          item.id = "sendMsg"
+          who.id = "send_who"
+          messages.id = "send_messages"
+          if (count == 0) {
+              item.innerHTML = convertNewlineToBr(message);
+              who.textContent = " : 나";
+              count = 1;
+              rec_count = 0;
+          } else {
+              item.innerHTML = convertNewlineToBr(message);
+          }
+          messages.appendChild(time);
+          messages.appendChild(item);
+          messages.appendChild(who);
+      } else {
+          item.id = "receiveMsg"
+          who.id = "rec_who"
+          messages.id = "rec_messages"
+          if (rec_count == 0) {
+              item.innerHTML = convertNewlineToBr(message);
+              who.textContent = "판매자 : ";
+              rec_count = 1;
+              count = 0;
+          } else {
+              item.innerHTML = convertNewlineToBr(message);
+
+          }
+          messages.appendChild(who);
+          messages.appendChild(item);
+          messages.appendChild(time);
+      }
+      messages.appendChild(br);
+      chatArea.appendChild(messages);
+      scrollToBottom(chatArea)
+  }
+
+  
+
+
+  function convertNewlineToBr(text) {
+      console.log("test : ", text)
+      return text.replace(/\n/g, '<br>');
+  }
+
+
+
+  
+  function handleKeyDown(event) {
+      if (event.keyCode === 13 && !event.shiftKey) {
+          event.preventDefault();
+          sendMessage();
+      }
+  }
+  
+
+
+
+  function scrollToBottom(elem) {
+      elem.scrollTop = elem.scrollHeight;
+  }
+
+</script> 
+
+</html>

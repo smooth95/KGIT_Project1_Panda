@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>모달창</title>
+  <link href="/resources/css/payment/modal.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="modal">
+    <div class="modal_body">
+      <table class="tbModal">
+        <span>결제 금액</span>
+        <hr>
+        <tr>
+          <td>
+            <div class="box" data-price="1" onclick="getPrice()">1000원</div>
+          </td>
+          <td>
+            <div class="box" data-price="2" onclick="getPrice()">5000원</div>
+          </td>
+          <td>
+            <div class="box" data-price="3" onclick="getPrice()">10000원</div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="box" data-price="4" onclick="getPrice()">50000원</div>
+          </td>
+          <td>
+            <div class="box" data-price="5" onclick="getPrice()">100000원</div>
+          </td>
+          <td><input type="text" data-price="6" onclick="getPrice()" id="inputPrice" style="width: 134.33px;"
+              placeholder="값을 입력하세요">
+    </div>
+    </td>
+    </tr>
+    </table>
+    <span class="spanTag">결제 방법</span>
+    <table class="tbModal">
+      <tr>
+        <hr>
+        <td>
+          <div class="payWay" data-payment="1" onclick="getPg()">카카오</div>
+        </td>
+        <td>
+          <div class="payWay" data-payment="2" onclick="getPg()">토스</div>
+        </td>
+        <td>
+          <div class="payWay" data-payment="3" onclick="getPg()">신용카드</div>
+        </td>
+      </tr>
+    </table>
+    <span class="spanTag">약관 동의</span>
+    <hr>
+    <textarea
+      id="terms">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In hac habitasse platea dictumst quisque sagittis purus. Pulvinar elementum integer enim neque volutpat ac.
+
+              Senectus et netus et malesuada. Nunc pulvinar sapien et ligula ullamcorper malesuada proin. Neque convallis a cras semper auctor. Libero id faucibus nisl tincidunt eget. Leo a diam sollicitudin tempor id. A lacus vestibulum sed arcu non odio euismod lacinia. In tellus integer feugiat scelerisque. Feugiat in fermentum posuere urna nec tincidunt praesent. Porttitor rhoncus dolor purus non enim praesent elementum facilisis. Nisi scelerisque eu ultrices vitae auctor eu augue ut lectus. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Et malesuada fames ac turpis egestas sed. Sit amet nisl suscipit adipiscing bibendum est ultricies. Arcu ac tortor dignissim convallis aenean et tortor at. Pretium viverra suspendisse potenti nullam ac tortor vitae purus. Eros donec ac odio tempor orci dapibus ultrices. Elementum nibh tellus molestie nunc. Et magnis dis parturient montes nascetur. Est placerat in egestas erat imperdiet. Consequat interdum varius sit amet mattis vulputate enim.
+              
+              Sit amet nulla facilisi morbi tempus. Nulla facilisi cras fermentum odio eu. Etiam erat velit scelerisque in dictum non consectetur a erat. Enim nulla aliquet porttitor lacus luctus accumsan tortor posuere. Ut sem nulla pharetra diam. Fames ac turpis egestas maecenas. Bibendum neque egestas congue quisque egestas diam. Laoreet id donec ultrices tincidunt arcu non sodales neque. Eget felis eget nunc lobortis mattis aliquam faucibus purus. Faucibus interdum posuere lorem ipsum dolor sit.</textarea>
+
+    <div class="btn-parent" style="margin-bottom: 20px;">
+      <input type="checkbox" id="agree"><label for="agree">약관에 동의합니다</label>
+    </div>
+    <div class="btn-parent">
+      <button class="w-btn-outline w-btn-blue-outline" type="button" onclick="payMoney()">
+        결제하기
+      </button>
+      <button class="w-btn-outline w-btn-red-outline" type="button" onclick="modalCancel()">
+        취소하기
+      </button>
+    </div>
+  </div>
+  </div>
+  </div>
+  <button class="btn-open-modal">Modal열기</button>
+
+
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  <script>
+    const modal = document.querySelector('.modal');
+    const btnOpenModal = document.querySelector('.btn-open-modal');
+    let price;
+    let payment;
+    let agr;
+
+    btnOpenModal.addEventListener("click", () => {
+      modal.style.display = "flex";
+    });
+
+    const modalCancel = () => {
+      modal.style.display = "none";
+    }
+
+    const getPrice = () => {
+      price = event.target.getAttribute('data-price');
+
+      let boxAll = document.querySelectorAll('.box');
+
+      for (let i = 0; i < boxAll.length; i++) {
+        if (boxAll[i].getAttribute('data-price') == price) {
+          boxAll[i].setAttribute("style", "background : red");
+        } else {
+          boxAll[i].removeAttribute("style", "background : red");
+        }
+      }
+    }
+
+    const getPg = () => {
+      payment = event.target.getAttribute('data-payment');
+
+      let paymentAll = document.querySelectorAll('.payWay');
+
+      for (let i = 0; i < paymentAll.length; i++) {
+        if (paymentAll[i].getAttribute('data-payment') === payment) {
+          paymentAll[i].setAttribute("style", "background : red");
+        } else {
+          paymentAll[i].removeAttribute("style", "background : red");
+        }
+      }
+    }
+
+
+
+
+    var IMP = window.IMP;
+    IMP.init("imp83801026");
+
+    //   let order = 0;
+
+    function requestPay(payment_price, payment_pg) {
+
+      fetch(`/payment/get_userInfo`)
+        .then(res => res.json())
+        .then(data => {
+          IMP.request_pay({
+              pg: payment_pg,
+              pay_method: "card",
+              merchant_uid: "57008831-33111" + new Date().toLocaleString(),
+              name: "판다 포인트 충전",
+              amount: payment_price,
+              buyer_email: "",
+              buyer_name: data[0].INFO_NAME,
+              buyer_tel: data[0].INFO_PHONE,
+              buyer_addr: data[0].INFO_REGION,
+              buyer_postcode: "",
+            },
+            function (rsp) {
+              // callback
+              //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+              if (rsp.success) {
+                console.log("성공");
+                fetch(`/payment/set_point/` + payment_price)
+                  .then(res => res.json())
+                  .then(data => {
+                    alert("충전 성공!!!");
+                    location.href = "/";
+                  });
+              } else {
+                console.log("실패");
+              }
+            }
+          );
+
+        });
+
+    }
+
+    const payMoney = () => {
+
+      agr = document.getElementById('agree').checked;
+
+      if (price != undefined && payment != undefined && agr == true) {
+        let pg_price;
+        let pg_payment;
+
+
+        if (price == 1)
+          pg_price = 1000;
+        else if (price == 2)
+          pg_price = 5000;
+        else if (price == 3)
+          pg_price = 10000;
+        else if (price == 4)
+          pg_price = 50000;
+        else if (price == 5)
+          pg_price = 100000;
+        else
+          pg_price = document.getElementById('inputPrice').value;
+
+
+        if (payment == 1)
+          pg_payment = "kakaopay";
+        else if (payment == 2)
+          pg_payment = "tosspay";
+        else
+          pg_payment = "danal_tpay";
+
+        requestPay(pg_price, pg_payment);
+      } else if (price == undefined)
+        alert("가격을 선택하세요!");
+      else if (payment == undefined)
+        alert("결제 방법을 선택하세요!!");
+      else
+        alert("약관에 동의해야 합니다!!");
+    }
+  </script>
+
+</body>
+
+</html>

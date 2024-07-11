@@ -1,0 +1,112 @@
+
+p {
+  font-size: 15px;
+}
+
+span {
+  font-size: 15px;
+}
+
+ #main_view {
+  max-width: 1024px;
+  min-width: 1024px;
+  margin: auto;
+ }
+
+ .top_banner {
+  width: 1024px;
+  height: 200px;
+ }
+
+ .top_banner_pack {
+  margin-bottom: 15px;
+  height: 200px;
+ }
+
+ .board_wrapper {
+    width: 1024px;
+    font-size: 0px;
+
+ }
+
+ .board_child_img {
+  display: inline-block;
+  border: 1px solid black;
+  margin-right: 11px;
+  margin-bottom: 11px;
+ }
+
+ .board_child_img_last {
+  display: inline-block;
+  border: 1px solid black;
+ }
+
+ .child_img {
+  width: 194px;
+  height: 194px;
+ }
+
+ .board_title {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+ }
+
+ .board_price {
+  margin-left: 5px;
+  font-weight: bold;
+  font-size: 19px;
+ }
+
+ .board_won {
+  font-weight: 600;
+  font-size: 15px;
+ }
+
+ .board_bottom_wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+ }
+
+ .board_date {
+  margin: 0 5px 0px 0;
+ }
+
+ .board_trade {
+  display: inline;
+  width: 50%;
+  height: 40px;
+  position: relative;
+ }
+
+ .board_trade_way_wrapper {
+  display: flex;
+  justify-content: space-between;
+ }
+
+ .tradeWay_P {
+  text-align: center;
+  margin-top: 7px;
+ }
+
+ .red {
+  background-color: red;
+ }
+
+ .green {
+  background-color: green;
+ }
+
+ #menu {
+  width: 50px;
+  height: 36px;
+ }
+
+ #category {
+  font-weight: 550;
+  display: flex;
+  align-items: center;
+  
+
+ }

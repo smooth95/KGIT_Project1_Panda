@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/resources/css/header.css">
+
+    <!-- dropdown 부분 클릭 이벤트 설정-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let dropdownInfo = document.querySelector('.dropdown-menu');
+            let dropdownBtn = document.querySelector('.dropdown-toggle');
+            let clickCount = 0; // 클릭 횟수를 저장하는 변수
+
+            console.log(clickCount + "None");
+            dropdownBtn.addEventListener('click', function () {
+                clickCount++; // 클릭 횟수 증가
+                console.log(clickCount + "클릭 후");
+
+                // 클릭 횟수가 홀수면 메뉴를 열고, 짝수면 메뉴를 닫음
+                if (clickCount === 0) {
+                    console.log("아무것도 안함");
+                } else if (clickCount % 2 == 0) {
+                    dropdownInfo.classList.add('show');
+                } else {
+                    dropdownInfo.classList.remove('show');
+                }
+            });
+
+            // 클릭 이외의 영역을 클릭하면 메뉴가 사라지도록 설정
+            window.addEventListener('click', function (event) {
+                if (!dropdownBtn.contains(event.target) && !dropdownInfo.contains(event.target)) {
+                    dropdownInfo.classList.remove('show');
+                    clickCount = 0; // 클릭 횟수 초기화
+                }
+            });
+        });
+        document.querySelector('.navbar-toggler').addEventListener('click', function () {
+            const offcanvas = document.querySelector('#offcanvasNavbar');
+            const backdrop = document.querySelector('.offcanvas-backdrop');
+
+            if (offcanvas.classList.contains('show')) {
+                backdrop.remove();
+            } else {
+                document.body.appendChild(backdrop);
+            }
+        });
+    </script>
+
+
+
+
+</head>
+
+<body>
+    <div class="wrap-header ">
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <!--화면 확장했을 때, 햄버거 바 메뉴 보이게-->
+            <div class="container-fluid  ">
+
+
+                <!-- 로고 부분 -->
+                <a class="header-logo" href="/">
+                    <img src="/resources/upload/logo.png" alt="Panda 로고">
+
+                </a>
+
+                <!-- 제목 -->
+                <div class="header-name">
+                    <div class="header-descripName">
+                        내 손안의 중고거래,
+                    </div>
+                    <div class="header-logoName">
+                        Panda
+                    </div>
+                </div>
+
+
+                <!-- 햄버거 바 -->
+                <div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
+                    <!-- 햄버거 바 header -->
+                    <div class="offcanvas-header ">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">내 손 안의 중고거래, Panda</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <!-- 햄버거 바 body -->
+                    <div class="offcanvas-body ">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <!-- <li class="nav-item">
+                                <a class="nav-link active mx-lg-2" aria-current="page" href="#">Home</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" href="/payment/point">PAY</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link mx-lg-2" href="/info/productM">프로필</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false" data-bs-auto-close="outside">
+                        로그인
+                    </button>
+                    <!-- dropdown-menu(로그인) 클래스 추가 -->
+                    <form class="dropdown-menu p-4">
+                        <div class="mb-3" id="profile_title">
+                            지원님, 안녕하세요
+                        </div>
+                        <div class="mb-3" id="profile_point">
+                            잔여 포인트 : 100
+                        </div>
+
+                        <input type="button" class="btn btn-primary" id="toggle_btn" value="로그아웃">
+                    </form>
+                </div>
+
+                <button class="navbar-toggler pe-0 ml-auto" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation"
+                    data-bs-backdrop="false">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+            </div>
+
+
+        </nav>
+
+        <div class="header-search">
+            <!-- 검색 부분 container 로 감싸기 -->
+            <div class="container text-center  ">
+
+                <div class="row justify-content-center">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success w-30" type="submit">검색</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ENd Navbar -->
+
+
+
+    <!-- /body 태그 직전에 추가하면 좋은 점 : 문서가 모두 로드된 후에 
+    JavaScript 파일이 실행되므로 페이지가 더 빠르게 렌더링된다.. -->
+    <!-- Bootstrap.min.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+
+    <!-- 관리자 쿠키가 1일 경우 버튼이 보이도록 설정-->
+    <script>
+        const loginButton = document.querySelector("#login_btn");
+
+
+        fetch(`/common/get_isAdmin`)
+            .then(res => res.json())
+            .then(data => {
+                if (data[0].check != 0 && data[0].check != undefined) {
+                    let adminButton = document.createElement('input');
+                    adminButton.setAttribute('type', 'button');
+                    adminButton.setAttribute('class', 'btn btn-primary');
+                    adminButton.setAttribute('value', '관리 페이지');
+                    adminButton.setAttribute('style', 'margin-top: 5px');
+                    adminButton.addEventListener('click', function () {
+                        location.href = "/admin";
+                    })
+                    const toggle_btn = document.querySelector("#toggle_btn");
+                    toggle_btn.setAttribute("value", "로그아웃");
+                    toggle_btn.addEventListener('click', function () {
+                        fetch(`common/delete_cookie`)
+                    .then(res => res.json())
+                    .then(data => {
+                        location.href ="/";
+                    });
+                      
+                    })
+                    let adminParent = document.querySelector(".dropdown-menu");
+                    adminParent.appendChild(adminButton);
+                }
+                else if(data[0].check == undefined) 
+                {
+                    const toggle_btn = document.querySelector("#toggle_btn");
+                    toggle_btn.setAttribute("value", "로그인");
+                    toggle_btn.addEventListener('click', function () {
+                      
+                        location.href = "/login";
+                    })
+                }
+                else
+                {
+                    const toggle_btn = document.querySelector("#toggle_btn");
+                    toggle_btn.setAttribute("value", "로그아웃");
+                    toggle_btn.addEventListener('click', function () {
+                        fetch(`common/delete_cookie`)
+                    .then(res => res.json())
+                    .then(data => {
+                        location.href ="/";
+                    });
+                      
+                    })
+                }
+
+                fetch(`/common/get_userInfo`)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data != 0) {
+                            const user_title = document.querySelector("#profile_title");
+                            user_title.innerHTML = `${data.INFO_NAME}님, 안녕하세요`;
+
+                            const user_point = document.querySelector("#profile_point");
+                            user_point.innerHTML = `잔여 포인트 : ${data.INFO_POINT} 원`;
+                        }
+                        else{
+                            const user_title = document.querySelector("#profile_title");
+                            user_title.innerHTML = `로그인이 필요합니다.`;
+
+                            const user_point = document.querySelector("#profile_point");
+                            user_point.innerHTML = ``;
+                        }
+                    });
+            });
+    </script>
+
+</body>
+
+</html>

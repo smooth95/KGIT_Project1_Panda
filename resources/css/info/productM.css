@@ -1,0 +1,165 @@
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+.cFVlDW {
+  display: block;
+}
+.gvsXqb {
+  font-size: 18px;
+  padding: 50px 0px 20px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.ckyNBp {
+  margin: 25px 0px 20px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.drYqMd {
+  margin-bottom: 30px;
+  width: 1024px;
+}
+.ckyNBp {
+  margin: 25px 0px 20px;
+  width: 1024px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.gxRxBk {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.cgKkBr {
+  display: flex;
+  font-size: 13px;
+}
+.gjjbyQ {
+  margin-right: 20px;
+  position: relative;
+  display: block;
+  color: black;
+  text-decoration: none;
+}
+.flxQHS {
+  padding-bottom: 100px;
+}
+.gmerZt01 {
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  display: flex;
+  border-top: 1px solid rgb(40, 39, 39);
+  border-right: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(40, 39, 39);
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  height: 30px;
+  font-size: small;
+}
+.hupeiQ {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-around;
+  height: 100px;
+}
+.deAjQN {
+  display: flex;
+  margin-bottom: 50px;
+  height: 100px;
+}
+.hsBvIx {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  border: 1px solid rgb(238, 238, 238);
+  position: relative;
+}
+.cgazhg {
+  position: relative;
+  width: 139px;
+  flex-shrink: 0;
+  height: 100%;
+}
+.bosAdb {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 150px;
+  height: 100px;
+}
+.boOsEk {
+  width: 363px;
+  flex-shrink: 0;
+}
+.izvjFP {
+  padding: 0px 64px 0px 20px;
+  display: flex;
+}
+.col {
+  height: 150px;
+  padding-top: 40px;
+}
+.col01 {
+  height: 100px;
+  padding-top: 40px;
+}
+
+
+.dropdown{
+  position : relative;
+  display : inline-block;
+}
+
+.dropbtn_icon{
+  font-family : 'Material Icons';
+}
+.dropbtn{
+  border : 1px solid rgb(37, 37, 37);
+  border-radius : 4px;
+  background-color: #f5f5f5;
+  font-weight: 400;
+  color : rgb(37, 37, 37);
+  padding :5px;
+  width :80px;
+  text-align: left;
+  cursor : pointer;
+  font-size : 13px;
+}
+.dropdown-content{
+  display : none;
+  position : absolute;
+  z-index : 1; /*다른 요소들보다 앞에 배치*/
+  font-weight: 400;
+  background-color: #f9f9f9;
+  min-width : 100px;
+}
+
+.dropdown-content a{
+  display : block;
+  text-decoration : none;
+  color : rgb(37, 37, 37);
+  font-size: 12px;
+  padding : 12px 20px;
+}
+
+.dropdown-content a:hover{
+  background-color : #ececec
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

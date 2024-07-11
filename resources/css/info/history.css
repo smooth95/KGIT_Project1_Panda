@@ -1,0 +1,155 @@
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+.cFVlDW {
+  display: block;
+}
+.gvsXqb {
+  font-size: 18px;
+  padding: 50px 0px 20px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.ckyNBp {
+  margin: 25px 0px 20px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.drYqMd {
+  margin-bottom: 30px;
+  width: 1024px;
+}
+.ckyNBp {
+  margin: 25px 0px 20px;
+  width: 1024px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.gxRxBk {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.cgKkBr {
+  display: flex;
+  font-size: 13px;
+}
+.gjjbyQ {
+  margin-right: 20px;
+  position: relative;
+  display: block;
+  color: black;
+  text-decoration: none;
+}
+.flxQHS {
+  padding-bottom: 100px;
+}
+.gmerZt01 {
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  display: flex;
+  border-top: 1px solid rgb(40, 39, 39);
+  border-right: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(40, 39, 39);
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  height: 30px;
+  font-size: small;
+}
+.hupeiQ {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-between;
+  height: 100px;
+}
+.deAjQN {
+  display: flex;
+  margin-bottom: 20px;
+  height: 100px;
+}
+.hsBvIx {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  border: 1px solid rgb(238, 238, 238);
+  position: relative;
+}
+.cgazhg {
+  position: relative;
+  width: 139px;
+  flex-shrink: 0;
+  height: 100%;
+}
+.bosAdb {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 150px;
+  height: 100px;
+}
+.boOsEk {
+  width: 363px;
+  flex-shrink: 0;
+}
+.izvjFP {
+  padding: 0px 64px 0px 20px;
+  display: flex;
+}
+.col {
+  height: 100px;
+  padding-top: 40px;
+}
+.col01 {
+  height: 100px;
+  padding-top: 40px;
+}
+table {
+  width: 100%;
+  border-top: 1px solid #444444;
+}
+th,
+td {
+  text-align: left;
+  border: 1px solid #444444;
+  border: 1px solid #444444;
+}
+td {
+  text-align: center;
+  border: 1px solid black;
+  padding: 5px;
+}
+th {
+  border-bottom: 2px solid black;
+  background-color: #00000017;
+  padding: 20px;
+}
+th:first-child {
+  width: 60%; /* 제목 열의 너비를 조정합니다. */
+  text-align: center;
+}
+th:nth-child(2),
+th:nth-child(3) {
+  width: 15%; /* 작성일과 조회수 열의 너비를 조정합니다. */
+  text-align: center; /* 작성일과 조회수를 오른쪽으로 정렬합니다. */
+}
+td:first-child {
+  text-align: left;
+}
+thead {
+  padding: 1000px;
+}
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href="/static/css/chat.css" rel="stylesheet">
+    <%- include("../common/header.ejs") %>
+
+</head>
+<body>
+    <!-- 메시지를 표시할 UL 요소 -->
+    <div id="chat_area">
+        <!-- 채팅 입력 폼 -->
+    </div>
+    <div id="chat_text">
+        <form id="form">
+            <!-- 채팅 메시지를 입력할 input 요소 -->
+            <textarea id="input" onkeydown="handleKeyDown(event)" autocomplete="off" placeholder="전달할 텍스트 입력" ></textarea>
+            
+            <!-- 폼 제출 버튼 -->
+            <input type="submit" id="send" value="전달">  
+        </form>
+    </div>
+    <input type="button" onclick="connectedUser('aaa')" value="aaa연결">
+    <input type="button" onclick="connectedUser('bbb')" value="bbb연결">
+    <input type="button" onclick="connectedUser('ccc')" value="ccc연결">
+
+</body>
+</html>
+
+<script>
+    let count = 0;
+    let rec_count = 0
+    const socket = io();
+
+    window.onload = () => {
+
+    }
+
+    function connectedUser(user) {
+        socket.emit('startChat', user)
+    }
+
+    // 채팅 메시지 전송 폼 이벤트 핸들러
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        sendMessage();
+    });
+
+    socket.on("setSocketId", () => {
+        socket.emit('setSocketId', '<%= cookie %>' )
+    })
+
+    socket.on('userConnected', (data) => {
+        console.log("data.id : ", data)
+        const messages = document.createElement('div');
+        const item = document.createElement('p');
+        const chatArea = document.getElementById('chat_area');
+        item.id = "infoMsg"
+        item.textContent = "알림 : 상대방이 접속하였습니다.";
+        count = 0;
+        rec_count = 0;
+        messages.appendChild(item);
+        chatArea.appendChild(messages);
+        scrollToBottom(chatArea)
+    });
+
+    function sendMessage() {
+        const input = document.getElementById('input');
+        const message = input.value;
+        socket.emit('chat message', message, '<%= cookie %>');
+        input.value = '';
+       
+    }
+    
+    function scrollToBottom(elem) {
+        elem.scrollTop = elem.scrollHeight;
+    }
+
+    function displayMessage(message, receive_cookie) {
+        console.log("받은 쿠키: " ,receive_cookie)
+        console.log("내 쿠키: " ,'<%= cookie %>')
+        const messages = document.createElement('div');
+        const item = document.createElement('p');
+        const who = document.createElement('p');
+        const chatArea = document.getElementById('chat_area');
+        const br = document.createElement('br');
+        if (receive_cookie == '<%= cookie %>') {
+            item.id = "sendMsg"
+            who.id = "send_who"
+            messages.id = "send_messages"
+            if (count == 0) {
+                item.innerHTML = convertNewlineToBr(message);
+                who.textContent = " : 나";
+                count = 1;
+                rec_count = 0;
+            } else {
+                item.innerHTML = convertNewlineToBr(message);
+            }
+            messages.appendChild(item);
+            messages.appendChild(who);
+        } else {
+            item.id = "receiveMsg"
+            who.id = "rec_who"
+            messages.id = "rec_messages"
+            if (rec_count == 0) {
+                item.innerHTML = convertNewlineToBr(message);
+                who.textContent = "상대 : ";
+                rec_count = 1;
+                count = 0;
+            } else {
+                item.innerHTML = convertNewlineToBr(message);
+
+            }
+            messages.appendChild(who);
+            messages.appendChild(item);
+        }
+        messages.appendChild(br);
+        chatArea.appendChild(messages);
+        scrollToBottom(chatArea)
+    }
+
+    function convertNewlineToBr(text) {
+        return text.replace(/\n/g, '<br>');
+    }
+
+    function handleKeyDown(event) {
+        if (event.keyCode === 13 && !event.shiftKey) {
+            event.preventDefault();
+            sendMessage();
+        }
+    }
+
+    
+    // 서버로부터 'chat message' 이벤트를 받으면 화면에 메시지 출력
+    socket.on('chat message', function(msg, receive_cookie) {
+        
+        displayMessage(msg, receive_cookie);
+    });
+</script>

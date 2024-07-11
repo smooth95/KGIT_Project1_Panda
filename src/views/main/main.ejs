@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="/resources/css/main/main_css.css" rel="stylesheet">
+  <link href="/resources/css/main/slide.css" rel="stylesheet">
+  <link href="/resources/css/main/menu.css" rel="stylesheet">
+</head>
+<script>
+  window.onload = () => {
+    let get_Board_wrapper = document.querySelectorAll(".board_trade_way_wrapper");
+    let get_Board_trade0 = document.querySelectorAll(".tradeWay0");
+    let get_Board_trade1 = document.querySelectorAll(".tradeWay1");
+
+    for(let i = 1; i <= get_Board_trade0.length; i++)
+    {
+      if(get_Board_wrapper[i-1].classList.item(1) == 0)
+      {
+        get_Board_trade0[i-1].className +=' green';
+        get_Board_trade1[i-1].className +=' red';
+      }
+      else if(get_Board_wrapper[i-1].classList.item(1) == 1)
+      {
+        get_Board_trade0[i-1].className +=' red';
+        get_Board_trade1[i-1].className +=' green';
+      }
+      else
+      {
+        get_Board_trade0[i-1].className +=' green';
+        get_Board_trade1[i-1].className +=' green';
+      }
+    }
+  }
+</script>
+
+<body>
+  <%- include ("../common/header") %>
+  <div id="main_view">
+    <div class="slide slide_wrap">
+      <div class="slide_item item1"><img class="banner_img" src="https://media.bunjang.co.kr/images/nocrop/1138696572_w1197.jpg"></div>
+      <div class="slide_item item2"><img class="banner_img" src="https://media.bunjang.co.kr/images/nocrop/1137739100_w1197.jpg"></div>
+      <div class="slide_item item3"><img class="banner_img" src="https://media.bunjang.co.kr/images/nocrop/1131480608_w1197.jpg"></div>
+      <div class="slide_item item4"><img class="banner_img" src="https://media.bunjang.co.kr/images/nocrop/1138490854_w1197.jpg"></div>
+      <div class="slide_item item5"><img class="banner_img" src="https://media.bunjang.co.kr/images/nocrop/1138004140_w1197.jpg"></div>
+      <div class="slide_prev_button slide_button">◀</div>
+      <div class="slide_next_button slide_button">▶</div>
+      <ul class="slide_pagination"></ul>
+    </div>
+    <div name="advertisement">
+      <div class="top_banner_pack">
+        <img src="https://m.bunjang.co.kr/pc-static/resource/237e17f5cbe07edc8fff.png" class="top_banner">
+      </div>
+    </div>
+    <div id="category">
+      <ul class="menu">
+        <li>
+          <a href="#"> <img src="https://cdn-icons-png.flaticon.com/512/3502/3502458.png" id="menu"></a>
+          <ul class="depth_1">
+            <li><a href="/" class="menu_a">전체</a></li>
+            <li><a href="/main/상의" class="menu_a">상의</a></li>
+            <li><a href="/main/하의" class="menu_a">하의</a></li>
+            <li><a href="/main/악세서리" class="menu_a">악세서리</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="board_wrapper">
+      <% for(let i = 1;  i <= list.length; i++){ %>
+      <% if(i % 5 == 0) { %>
+      <div class="board_list board_child_img_last"  data-value=<%= `${list[i-1].BOARD_NUM}` %>>
+        <img src="../../../resources/upload/<%=list[i - 1].BOARD_IMG %>" class="child_img">
+        <div>
+          <p class="board_title"><%= list[i-1].BOARD_TITLE %></p>
+          <div class="board_bottom_wrapper">
+            <div>
+              <span class="board_price"><%= list[i-1].BOARD_PRICE %></span>
+              <span class="board_won">원</span>
+            </div>
+            <div><span>
+                <% if(list[i-1].BOARD_CREATETIME == '오늘'){ %>
+                <%= list[i-1].BOARD_CREATETIME %>
+                <%} else {%>
+                <%= list[i-1].BOARD_CREATETIME %>일전
+                <%}%>
+            </span></div>
+          </div>
+          <div class="board_trade_way_wrapper <%=list[i-1].BOARD_TRADEWAY%>">
+            <div class="board_trade tradeWay0"><p class="tradeWay_P">택배</p></div>
+            <div class="board_trade tradeWay1"><p class="tradeWay_P">직거래</p></div>
+          </div>
+        </div>
+      </div>
+         <%} else {%>
+                <div class="board_list board_child_img" data-value=<%= `${list[i-1].BOARD_NUM}` %>>
+                  <img src="../../../resources/upload/<%=list[i - 1].BOARD_IMG %>" class="child_img" >
+                  <div>
+                    <p class="board_title"><%= list[i-1].BOARD_TITLE %></p>
+                    <div class="board_bottom_wrapper">
+                      <div>
+                        <span class="board_price"><%= list[i-1].BOARD_PRICE %></span>
+                        <span class="board_won">원</span>
+                      </div>
+                      <div>
+                        <span class="board_date">
+                          <% if(list[i-1].BOARD_CREATETIME == '오늘'){ %>
+                          <%= list[i-1].BOARD_CREATETIME %>
+                          <%} else {%>
+                          <%= list[i-1].BOARD_CREATETIME %>일전
+                          <%}%>
+                        </span>
+                      </div>  
+                    </div>
+                    <div class="board_trade_way_wrapper <%=list[i-1].BOARD_TRADEWAY%>">
+                      <div class="board_trade tradeWay0"><p class="tradeWay_P">택배</p></div>
+                      <div class="board_trade tradeWay1"><p class="tradeWay_P">직거래</p></div>
+                    </div>
+                  </div>
+  </div>
+      <% }
+       } %>
+</div>
+
+<%if(category == 0) { %>
+  <script src="/resources/js/main/main.js" type="application/javascript"></script>
+<%}else{ %>
+  <script src="/resources/js/main/main_category.js" type="application/javascript"></script>
+<%} %>
+
+<script src="/resources/js/main/slide.js" type="application/javascript"></script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+body {
+    width: 1024px;
+    margin: auto;
+}
+.mng_mem_body {
+    margin-top: 10px;
+}
+
+.mng_mem_body_table {
+    text-align: center;
+    max-height: 610px;
+    min-width: 880px;
+    overflow-y: auto;
+    align-items: center;
+    border: 1px solid rgb(190, 190, 190);
+}
+
+.mng_mem_table {
+    border-collapse: separate;
+	border-spacing: 0;
+    width: 100%;
+    
+}
+.mng_mem_table .title {
+    position: sticky;
+    top: 0; 
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px solid rgb(190, 190, 190);
+    border-right: 1px solid rgb(190, 190, 190);
+    background-color: white;
+    z-index: 2;
+    height: 30px;
+    font-size: 20px;
+    background-color: #f5f5f5;
+    color: #555;
+}
+.title:last-child {
+    border-right: none;
+}
+.mng_mem_table .content {
+    padding: 5px;
+    margin: 0;
+    border-bottom: 1px solid rgb(190, 190, 190);
+    border-right: 1px solid rgb(190, 190, 190);
+    color: #4d4d4d;
+}
+.content_tr:last-child .content {
+    border-bottom: none;
+}
+.content:last-child {
+    border-right: none;
+}
+.mem_list tr:hover{
+    background-color: rgb(245, 245, 245);
+}
+.mng_mem_bot_nav {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: right;
+    display: flex;
+}
+.mng_mem_bot_nav > label {
+    margin-left: 20px;
+    float: left;
+    color: #3a3a3a;
+    font-size: 14px;
+    display: block;
+    width: 33.33333%;
+    text-align: left;
+}
+.mng_mem_bot_nav_input_wrapper > input {
+    width: 70px;
+    height: 35px;
+    font-size: 18px;
+    margin: 30px 10px 0 10px;
+    border-radius: 2px;
+    background-color: rgb(199, 199, 199);
+    border: 1px solid rgb(83, 83, 83);
+    cursor: pointer;
+    font-weight: bold;
+    color: rgb(78, 78, 78);
+}
+.mng_mem_bot_nav_input_wrapper {
+    width: 33.33333%;
+    line-height: 0px;
+}
+
+.checkbox {
+    height: 20px;
+    width: 20px;
+}
+
+.mem_search_wrapper {
+    margin: 0 0 10px 10px;
+}
+.mem_search_select {
+    width: 150px;
+    text-align: center;
+    height: 35px;
+}
+
+.mem_search {
+    width: 300px;
+    height: 35px;
+}
+.mem_search_btn {
+    height: 35px;
+    width: 60px;
+}
+
+.mng_mem_paging_wrapper {
+    position: relative;
+    width: 300px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    bottom: 0;
+}
+.mng_mem_paging_wrapper button {
+    border: 0;
+}
+.mng_mem_paging_wrapper button:disabled {
+    background-color: rgb(247, 247, 247);
+    color: rgb(175, 175, 175);
+}
+.mng_mem_paging_wrapper .paging {
+    display: inline;
+    margin: 0 0 0 0;
+    text-decoration: none;
+    background-color: rgb(226, 226, 226);
+    color: black;
+    cursor: pointer;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    width: 40px;
+    height: 30px;
+    line-height: 25px;
+    text-align: center;
+}
+.curPage {
+    background-color: rgb(206, 206, 206);
+    font-weight: bold;
+}
+.paging:last-child {
+    border-right: 1px solid black;
+}
+
+
+
+
+
+/* 스크롤 바 */
+.mng_mem_body_table::-webkit-scrollbar {
+    width: 12px; /* 스크롤 바의 너비 */
+  }
+  
+  /* 스크롤 바 트랙 */
+  .mng_mem_body_table::-webkit-scrollbar-track {
+    background-color: #ffffff; /* 스크롤 바의 배경색 */
+    border-left: 1px solid rgb(190, 190, 190);
+  }
+  
+  /* 스크롤 바 색상 */
+  .mng_mem_body_table::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤 바의 색상 */
+    border-radius: 6px; /* 스크롤 바의 모서리 반지름 */
+  }
+  
+  /* 스크롤 바 마우스 호버 시 */
+  .mng_mem_body_table::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* 스크롤 바의 마우스 호버 시 색상 */
+  }
+  
+  /* 세로 스크롤 바 */
+  .mng_mem_body_table::-webkit-scrollbar-vertical {
+    width: 12px; /* 세로 스크롤 바의 너비 */
+  }
