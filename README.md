@@ -1,4 +1,4 @@
-#Guhyeon 작업 영역
+Guhyeon 작업 영역
 
 1. 채팅 서비스 개발 (BE, FE의 모든 chat관련 페이지 및 코드 작성)
    - src/chat/chat.js 파일 코드 작성
