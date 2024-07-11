@@ -2,7 +2,7 @@
 
 1. 채팅 서비스 개발
    - src/chat/chat.js 파일 코드 작성
-   - resources/js/payment/buyerPage.js, sellerpage.js 파일의 하단 script 코드 작성
+   - resources/js/payment/buyerPage.ejs, sellerpage.ejs 파일의 하단 script 코드 작성
 
 3. Admin페이지 서비스 개발 (src/admin/* 파일 코드 작성)
    - 메인 페이지 : 전체 게시글 수 확인 및 카테고리별 수량 확인할 수 있는 그래프 표시
