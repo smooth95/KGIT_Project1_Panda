@@ -6,8 +6,10 @@ const process = {
         return totalContent;
     },
     getPageContent : async (totalContent, page) => {
+        console.log("page : ", page)
         const content = await getProdPage(totalContent.rows[0]['COUNT(*)'], page);
         content.pageContent = await dao.prodSelect.getProdPageContent(content.start, content.end);
+        console.log("content.pageContent : ", content.pageContent)
         return content
     },
     getProdSearchTotalContent : async (query) => {

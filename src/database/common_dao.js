@@ -4,4 +4,5 @@ oracledb.autoCommit = true;
 oracledb.outFormat = oracledb.OBJECT;
 
 
+
 module.exports=oracledb.getConnection(dbConfig)

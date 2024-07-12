@@ -2,8 +2,11 @@ const service = require("../../service/admin/mem_service")
 
 const admin_view = {
     memList : async (req, res) => {
+        console.log("admin_view memList실행")
         const totalContent = await service.process.getMemTotalContent();
+        console.log("totalContent : ", totalContent)
         const result = await service.process.getMem(totalContent, req.query.page)
+        console.log("asdf")
         res.render("admin/member/mem_list", {
             total : totalContent.rows[0],
             page : result.page,

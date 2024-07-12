@@ -1,7 +1,7 @@
 const dbconfig = {
-    user : "kim",
+    user : "c##java",
     password : "1234",
-    connectString : "34.64.169.248:1521/xe"
+    connectString : "localhost:1521/orcl"
 }
 
 module.exports = dbconfig;

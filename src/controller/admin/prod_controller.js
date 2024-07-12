@@ -23,7 +23,9 @@ const admin_view = {
 const admin_process = {
     prodPageList : async (req, res) => {
         const totalContent = await service.process.getProdTotalContent();
+        console.log("totalContent : ", totalContent)
         const content = await service.process.getPageContent(totalContent, req.query.page);
+        console.log("content : " , content.pageContent)
         res.json({
             curPage : req.query.page,
             total : totalContent.rows[0],

@@ -267,9 +267,11 @@
 
 
         function getList(page) {
-            fetch(`/admin/prod_page_list?page=${page}`)
+            console.log("page : ", page)
+            fetch(`/admin/mem_list?page=${page}`)
             .then(res => res.json())
             .then(data => {
+                console.log("test2")
                 //현재 페이지를 다른함수에서 사용할 수 있도록 설정
                 curPage = page;
 
@@ -296,9 +298,10 @@
                 let msg = "";
                 data.pageContent.forEach((item) => { 
                     msg += contentMsg(item);
+                    console.log("contentMsg : ", contentMsg)
                     tbody.innerHTML = msg;
                 })
-                document.querySelector(".mng_prod_nav_label").innerHTML = (`총 <%=total['COUNT(*)']%> 건의 게시글 정보 중 ${data.pageContent.length} 개</label>`)
+                document.querySelector(".mng_mem_nav_label").innerHTML = (`총 <%=total['COUNT(*)']%> 건의 게시글 정보 중 ${data.pageContent.length} 개</label>`)
 
             })
         }

@@ -1,12 +1,15 @@
 const dao = require("../../database/admin/memDAO")
 
 const process = {
-    getMemTotalContent : () => {
-        const totalContent = dao.memSelect.getMemTotalContent();
+    getMemTotalContent : async() => {
+        console.log("service getMemTotalContent 실행")
+        const totalContent = await dao.memSelect.getMemTotalContent();
+        console.log("totalContent : ", totalContent)
         return totalContent;
     },
     getMem : async(totalContent, page) => {
         const content = await getMemPage(totalContent.rows[0]['COUNT(*)'], page);
+        console.log("content : ", content)
         content.pageContent = await dao.memSelect.getMem(content.start, content.end)
         return content;
     },

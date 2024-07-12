@@ -1,4 +1,4 @@
-const con = require("../main/common_dao");
+const con = require("../common_dao");
 
 const prodSelect = {
     getProdTotalContent : async () => {
@@ -40,6 +40,7 @@ const prodSelect = {
     },
     getProdSearchPageContent : async (start, end) => {
         const input = getSearchData();
+        console.log("input : ", input)
         const sql = `select B.* from(select rownum rn, A.* from(select * from user_board where ${input.type} like '%${input.text}%')A)B where rn between ${start} and ${end}`
         let pageContent;
         try {
